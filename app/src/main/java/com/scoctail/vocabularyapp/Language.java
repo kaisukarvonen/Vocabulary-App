@@ -8,6 +8,18 @@ public class Language {
     int id;
     String name;
 
+    public Language() {
+    }
+
+    public Language(String name) {
+        this.name = name;
+    }
+
+    public Language(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }

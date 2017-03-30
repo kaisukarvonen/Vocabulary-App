@@ -8,6 +8,10 @@ public class WordClass {
     int id;
     String name;
 
+    public WordClass(String name) {
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }

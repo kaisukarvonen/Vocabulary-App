@@ -9,6 +9,11 @@ public class Theme {
     String name;
     String description;
 
+    public Theme(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public int getId() {
         return id;
     }

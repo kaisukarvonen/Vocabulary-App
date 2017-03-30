@@ -3,17 +3,14 @@ package com.scoctail.vocabularyapp;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
-
-    DatabaseHelper db;
+public class DisplayWords extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.display_words_layout);
+        BackgroundTask bgtask = new BackgroundTask(this);
+        bgtask.execute("getLanguages");
 
-        db = new DatabaseHelper(getApplicationContext());
-
-        db.addTheme(new Theme("sports", null));
     }
 }
