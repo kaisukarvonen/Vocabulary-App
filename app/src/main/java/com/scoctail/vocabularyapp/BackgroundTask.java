@@ -3,6 +3,7 @@ package com.scoctail.vocabularyapp;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 
 public class BackgroundTask extends AsyncTask<String, Language, String> {
-    DatabaseHelper db;
+
     WordAdapter wa;
     Context ctx;
     Activity ac;
@@ -28,26 +29,28 @@ public class BackgroundTask extends AsyncTask<String, Language, String> {
     @Override
     protected String doInBackground(String... params) {
         String method = params[0];
-        if(method == "getLanguages") {
+
+            DatabaseHelper dbhelper = new DatabaseHelper(ctx);
             lv = (ListView) ac.findViewById(R.id.display_listview);
             wa = new WordAdapter(ctx, R.layout.display_words);
-            Cursor c = db.getLanguages();
+            Cursor c = dbhelper.getLanguages();
             int id;
             String name;
+
             while (c.moveToNext()) {
                 id = c.getInt(c.getColumnIndex(DatabaseHelper.KEY_ID));
                 name = c.getString(c.getColumnIndex(DatabaseHelper.KEY_NAME));
                 Language l = new Language(id, name);
                 publishProgress(l);
             }
-            return "getLanguages";
-        }
 
-        return null;
+
+        return "getLanguages";
     }
 
     @Override
     protected void onProgressUpdate(Language... values) {
+
         wa.add(values[0]);
     }
 

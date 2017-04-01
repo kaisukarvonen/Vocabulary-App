@@ -12,5 +12,7 @@ public class DisplayWords extends AppCompatActivity {
         BackgroundTask bgtask = new BackgroundTask(this);
         bgtask.execute("getLanguages");
 
+        //crashed if bgtask is used?
+
     }
 }

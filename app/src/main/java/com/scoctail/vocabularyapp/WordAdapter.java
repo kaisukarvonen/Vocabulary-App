@@ -54,7 +54,7 @@ public class WordAdapter extends ArrayAdapter {
         }
 
         Language la = (Language)getItem(position);
-        wh.tx_id.setText(Integer.toString(la.getId()));
+        wh.tx_id.setText(Integer.toString(la.getId())); //NullPointerException?
         wh.tx_name.setText(la.getName().toString());
 
 

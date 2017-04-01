@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.nfc.Tag;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +57,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             KEY_LANGUAGE+" INTEGER NOT NULL,"+
             KEY_THEME+" INTEGER,"+
             KEY_WORDCLASS+" INTEGER,"+
-            "FOREIGN KEY ("+KEY_LANGUAGE+") REFERENCES "+TABLE_LANGUAGE+"("+KEY_ID+")),"+
-            "FOREIGN KEY ("+KEY_THEME+") REFERENCES "+TABLE_THEME+"("+KEY_ID+")),"+
+            "FOREIGN KEY ("+KEY_LANGUAGE+") REFERENCES "+TABLE_LANGUAGE+"("+KEY_ID+"),"+
+            "FOREIGN KEY ("+KEY_THEME+") REFERENCES "+TABLE_THEME+"("+KEY_ID+"),"+
             "FOREIGN KEY ("+KEY_WORDCLASS+") REFERENCES "+TABLE_WORDCLASS+"("+KEY_ID+"));";
 
 
@@ -76,13 +77,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_WORDCLASS);
         db.execSQL(CREATE_TABLE_WORD);
 
-        db.execSQL("insert into "+KEY_LANGUAGE+" ("+KEY_NAME+") values ('English');");
-        db.execSQL("insert into "+KEY_LANGUAGE+" ("+KEY_NAME+") values ('Deutsch');");
-        db.execSQL("insert into "+KEY_LANGUAGE+" ("+KEY_NAME+") values ('Espanol');");
+        db.execSQL("insert into "+TABLE_LANGUAGE+" ("+KEY_NAME+") values ('English');");
+        db.execSQL("insert into "+TABLE_LANGUAGE+" ("+KEY_NAME+") values ('Deutsch');");
+        db.execSQL("insert into "+TABLE_LANGUAGE+" ("+KEY_NAME+") values ('Espanol');");
 
-        db.execSQL("insert into "+KEY_WORDCLASS+" ("+KEY_NAME+") values ('Verbs');");
-        db.execSQL("insert into "+KEY_WORDCLASS+" ("+KEY_NAME+") values ('Nouns');");
-        db.execSQL("insert into "+KEY_WORDCLASS+" ("+KEY_NAME+") values ('Adjectives');");
+        db.execSQL("insert into "+TABLE_WORDCLASS+" ("+KEY_NAME+") values ('Verbs');");
+        db.execSQL("insert into "+TABLE_WORDCLASS+" ("+KEY_NAME+") values ('Nouns');");
+        db.execSQL("insert into "+TABLE_WORDCLASS+" ("+KEY_NAME+") values ('Adjectives');");
     }
 
     @Override
@@ -146,6 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getLanguages() {
+        Log.d("where?", "here");
         SQLiteDatabase db = this.getWritableDatabase();
         String [] columns = {KEY_ID, KEY_NAME};
         Cursor c = db.query(TABLE_LANGUAGE, columns, null, null, null, null, null);

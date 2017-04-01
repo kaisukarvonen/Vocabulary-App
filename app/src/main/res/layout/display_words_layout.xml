@@ -7,9 +7,9 @@
     tools:context="com.scoctail.vocabularyapp.DisplayWords">
 
     <ListView
-        android:layout_height="495dp"
-        android:layout_width="344dp"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
         android:id="@+id/display_listview"
-    ></ListView>
+    />
 
 </android.support.constraint.ConstraintLayout>
