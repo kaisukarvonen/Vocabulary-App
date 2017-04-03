@@ -1,14 +1,14 @@
-package com.scoctail.vocabularyapp;
+package com.scoctail.vocabularyapp.adapters;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.scoctail.vocabularyapp.beans.Language;
+import com.scoctail.vocabularyapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,24 +31,27 @@ public class WordAdapter extends ArrayAdapter {
 
     @Override
     public int getCount() {
-        return super.getCount();
+
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return super.getItem(position);
+
+        return list.get(position);
     }
 
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         WordHolder wh;
         if (row == null) {
             LayoutInflater lainf = (LayoutInflater)this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = lainf.inflate(R.layout.display_words, parent, false);
+            row = lainf.inflate(R.layout.word_row, parent, false);
             wh = new WordHolder();
             wh.tx_id = (TextView)row.findViewById(R.id.t_id);
             wh.tx_name = (TextView)row.findViewById(R.id.t_name);
+            row.setTag(wh);
         } else {
             wh = (WordHolder)row.getTag();
         }
@@ -63,5 +66,9 @@ public class WordAdapter extends ArrayAdapter {
 
     static class WordHolder {
         TextView tx_id, tx_name;
+
+        public String toString() {
+            return "wordholder";
+        }
     }
 }

@@ -1,14 +1,16 @@
-package com.scoctail.vocabularyapp;
+package com.scoctail.vocabularyapp.background;
 
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.List;
+import com.scoctail.vocabularyapp.database.DatabaseHelper;
+import com.scoctail.vocabularyapp.R;
+import com.scoctail.vocabularyapp.adapters.WordAdapter;
+import com.scoctail.vocabularyapp.beans.Language;
 
 /**
  * Created by Kaisu on 30/3/17.
@@ -32,7 +34,7 @@ public class BackgroundTask extends AsyncTask<String, Language, String> {
 
             DatabaseHelper dbhelper = new DatabaseHelper(ctx);
             lv = (ListView) ac.findViewById(R.id.display_listview);
-            wa = new WordAdapter(ctx, R.layout.display_words);
+            wa = new WordAdapter(ctx, R.layout.word_row);
             Cursor c = dbhelper.getLanguages();
             int id;
             String name;
@@ -56,7 +58,8 @@ public class BackgroundTask extends AsyncTask<String, Language, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if(result == "getLanguages") {
+        if(result.equals("getLanguages")) {
+            //Log.d("onPostExecute?", "true");
             lv.setAdapter(wa);
         } else {
             Toast.makeText(ctx, result, Toast.LENGTH_LONG);

@@ -1,22 +1,14 @@
-package com.scoctail.vocabularyapp;
+package com.scoctail.vocabularyapp.beans;
 
 /**
  * Created by Kaisu on 27/3/17.
  */
 
-public class Language {
+public class WordClass {
     int id;
     String name;
 
-    public Language() {
-    }
-
-    public Language(String name) {
-        this.name = name;
-    }
-
-    public Language(int id, String name) {
-        this.id = id;
+    public WordClass(String name) {
         this.name = name;
     }
 

@@ -1,17 +1,23 @@
-package com.scoctail.vocabularyapp;
+package com.scoctail.vocabularyapp.beans;
 
 /**
  * Created by Kaisu on 27/3/17.
  */
 
-public class Theme {
+public class Language {
     int id;
     String name;
-    String description;
 
-    public Theme(String name, String description) {
+    public Language() {
+    }
+
+    public Language(String name) {
         this.name = name;
-        this.description = description;
+    }
+
+    public Language(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public int getId() {
@@ -28,13 +34,5 @@ public class Theme {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

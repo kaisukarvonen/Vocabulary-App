@@ -1,4 +1,4 @@
-package com.scoctail.vocabularyapp;
+package com.scoctail.vocabularyapp.beans;
 
 /**
  * Created by Kaisu on 27/3/17.

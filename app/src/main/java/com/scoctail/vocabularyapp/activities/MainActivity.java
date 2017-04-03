@@ -1,7 +1,11 @@
-package com.scoctail.vocabularyapp;
+package com.scoctail.vocabularyapp.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.scoctail.vocabularyapp.R;
+import com.scoctail.vocabularyapp.beans.Theme;
+import com.scoctail.vocabularyapp.database.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
 

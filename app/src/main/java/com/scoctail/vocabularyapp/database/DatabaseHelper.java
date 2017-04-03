@@ -1,15 +1,16 @@
-package com.scoctail.vocabularyapp;
+package com.scoctail.vocabularyapp.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.nfc.Tag;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.scoctail.vocabularyapp.beans.Language;
+import com.scoctail.vocabularyapp.beans.Theme;
+import com.scoctail.vocabularyapp.beans.Word;
+import com.scoctail.vocabularyapp.beans.WordClass;
 
 /**
  * Created by Kaisu on 23/3/17.
