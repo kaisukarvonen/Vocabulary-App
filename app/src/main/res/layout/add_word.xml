@@ -6,15 +6,123 @@
     android:layout_height="match_parent"
     tools:context="com.scoctail.vocabularyapp.activities.AddWord">
 
-
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/new_word_title"
+        android:layout_width="197dp"
+        android:layout_height="30dp"
         android:text="Add a new word"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="31dp"
-        android:textStyle="bold"
-        />
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="39dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="16dp" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/word_input_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="56dp"
+        app:layout_constraintTop_toBottomOf="@+id/new_word_title"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.0">
+
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="Word"
+            android:id="@+id/word"/>
+    </android.support.design.widget.TextInputLayout>
+
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/textInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/textInputLayout"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:id="@+id/examples_input_fiel">
+
+        <EditText
+            android:id="@+id/examples"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="Examples"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/translation_input_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/word_input_field"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginTop="4dp">
+
+        <EditText
+            android:id="@+id/translation"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="Translation" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/translation_input_field"
+        app:layout_constraintRight_toRightOf="@+id/translation_input_field"
+        app:layout_constraintTop_toBottomOf="@+id/translation_input_field"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginTop="3dp">
+
+        <EditText
+            android:id="@+id/conjugation"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="Conjugation" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/save_new_word"
+        android:layout_width="130dp"
+        android:layout_height="54dp"
+        android:onClick="saveNewWord"
+        android:text="Save"
+        android:textSize="18sp"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="47dp"
+        app:layout_constraintTop_toBottomOf="@+id/examples_input_fiel"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

@@ -9,24 +9,27 @@
     android:id="@+id/linear">
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="80dp"
-        android:layout_height="112dp"
-        android:layout_marginLeft="290dp"
-        android:layout_marginTop="490dp"
-        android:clickable="true"
-        app:backgroundTint="@color/colorPrimary"
-        app:fabSize="mini"
-        app:rippleColor="@android:color/background_light"
-        app:srcCompat="@android:drawable/ic_menu_add"
-        android:onClick="goToAddWordPage"
-        />
+
 
     <ListView
         android:id="@+id/display_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="260dp"
+        android:layout_marginTop="410dp"
+        android:clickable="true"
+        android:onClick="goToAddWordPage"
+        android:background="@drawable/oval"
+        app:backgroundTint="@color/colorPrimary"
+        app:rippleColor="@android:color/background_light"
+        android:src="@drawable/ic_add_240"
+
+        />
 
 
 </android.support.design.widget.CoordinatorLayout>
