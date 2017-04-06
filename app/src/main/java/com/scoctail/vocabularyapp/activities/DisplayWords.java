@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.scoctail.vocabularyapp.R;
-import com.scoctail.vocabularyapp.background.BackgroundTask;
+import com.scoctail.vocabularyapp.backgroundtasks.ShowWordsBackgroundTask;
 
 public class DisplayWords extends AppCompatActivity {
 
@@ -15,10 +15,8 @@ public class DisplayWords extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
-        //BackgroundTask bgtask = new BackgroundTask(this);
-        //bgtask.execute("getLanguages");
-
-        //crashed if bgtask is used?
+        ShowWordsBackgroundTask bg = new ShowWordsBackgroundTask(this);
+        bg.execute("showWords");
 
     }
 

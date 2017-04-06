@@ -6,21 +6,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:id="@+id/t_id"
+        android:id="@+id/t_name"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="61dp"
         android:layout_marginStart="61dp"
-        android:layout_alignTop="@+id/t_name" />
+        android:layout_alignTop="@+id/t_translation" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:id="@+id/t_name"
+        android:id="@+id/t_translation"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/t_id"
-        android:layout_toEndOf="@+id/t_id"
+        android:layout_toRightOf="@+id/t_name"
+        android:layout_toEndOf="@+id/t_name"
         android:layout_marginLeft="77dp"
         android:layout_marginStart="77dp"
         android:layout_marginTop="94dp" />

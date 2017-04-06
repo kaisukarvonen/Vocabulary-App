@@ -11,6 +11,18 @@ public class Word {
     String examples;
     String conjugation;
 
+    public Word(String name, String translation) {
+        this.name = name;
+        this.translation = translation;
+    }
+
+    public Word(String name, String translation, String examples, String conjugation) {
+        this.name = name;
+        this.translation = translation;
+        this.examples = examples;
+        this.conjugation = conjugation;
+    }
+
     public int getId() {
         return id;
     }

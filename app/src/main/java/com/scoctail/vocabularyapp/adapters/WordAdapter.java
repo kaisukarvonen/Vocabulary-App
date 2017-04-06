@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.scoctail.vocabularyapp.beans.Language;
+import com.scoctail.vocabularyapp.beans.Word;
 import com.scoctail.vocabularyapp.R;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class WordAdapter extends ArrayAdapter {
         super(context, resource);
     }
 
-    public void add(Language object) {
+    public void add(Word object) {
         list.add(object);
         super.add(object);
     }
@@ -49,23 +49,23 @@ public class WordAdapter extends ArrayAdapter {
             LayoutInflater lainf = (LayoutInflater)this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = lainf.inflate(R.layout.word_row, parent, false);
             wh = new WordHolder();
-            wh.tx_id = (TextView)row.findViewById(R.id.t_id);
+            wh.tx_translation = (TextView)row.findViewById(R.id.t_translation);
             wh.tx_name = (TextView)row.findViewById(R.id.t_name);
             row.setTag(wh);
         } else {
             wh = (WordHolder)row.getTag();
         }
 
-        Language la = (Language)getItem(position);
-        wh.tx_id.setText(Integer.toString(la.getId())); //NullPointerException?
-        wh.tx_name.setText(la.getName().toString());
+        Word word = (Word)getItem(position);
+        wh.tx_translation.setText(word.getTranslation().toString());
+        wh.tx_name.setText(word.getName().toString());
 
 
         return row;
     }
 
     static class WordHolder {
-        TextView tx_id, tx_name;
+        TextView tx_translation, tx_name;
 
         public String toString() {
             return "wordholder";
