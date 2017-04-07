@@ -124,6 +124,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public Cursor getWord(String name) {
+        name = "'"+name+"'";
+        SQLiteDatabase db = this.getWritableDatabase();
+        String [] columns = {VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION, VocabularyContract.WordEntry.KEY_CONJUGATION, VocabularyContract.WordEntry.KEY_EXAMPLES};
+        Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.KEY_NAME+" = "+name, null, null, null, null);
+
+        return c;
+    }
+
 
 
 }
