@@ -20,6 +20,7 @@ import java.util.List;
 public class WordAdapter extends ArrayAdapter {
     List list = new ArrayList();
 
+
     public WordAdapter( Context context, int resource) {
         super(context, resource);
     }
