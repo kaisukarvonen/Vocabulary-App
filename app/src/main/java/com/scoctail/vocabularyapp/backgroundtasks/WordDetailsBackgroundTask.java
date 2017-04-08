@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,12 +62,27 @@ public class WordDetailsBackgroundTask extends AsyncTask<String, Void, Word> {
             t_conjugation = (TextView)ac.findViewById(R.id.w_conjugation);
             t_translation = (TextView)ac.findViewById(R.id.w_translation);
             t_examples = (TextView)ac.findViewById(R.id.w_examples);
+
+            if (word.getExamples().isEmpty()) {
+                t_examples.setVisibility(TextView.INVISIBLE);
+                (ac.findViewById(R.id.w_examples_title)).setVisibility(TextView.INVISIBLE);
+            } else {
+                t_examples.setText(word.getExamples());
+            }
+
+            if (word.getConjugation().isEmpty()) {
+                t_conjugation.setVisibility(TextView.INVISIBLE);
+                (ac.findViewById(R.id.w_conjugation_title)).setVisibility(TextView.INVISIBLE);
+            } else {
+                t_conjugation.setText(word.getConjugation());
+            }
+
             t_name.setText(word.getName());
             t_translation.setText(word.getTranslation());
-            t_conjugation.setText(word.getConjugation());
-            t_examples.setText(word.getExamples());
+
         } else {
             Toast.makeText(ctx, "Error displaying the word", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

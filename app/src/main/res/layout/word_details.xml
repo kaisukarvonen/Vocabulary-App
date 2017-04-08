@@ -24,7 +24,7 @@
         android:id="@+id/w_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="name"
         android:layout_marginTop="13dp"
         app:layout_constraintTop_toBottomOf="@+id/w_name_title"
         app:layout_constraintLeft_toLeftOf="@+id/w_name_title"
@@ -49,7 +49,7 @@
         android:id="@+id/w_translation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="translation"
         tools:layout_constraintTop_creator="1"
         android:layout_marginTop="12dp"
         app:layout_constraintTop_toBottomOf="@+id/w_translation_title"
@@ -75,12 +75,12 @@
         android:id="@+id/w_examples"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="examples"
         tools:layout_constraintTop_creator="1"
         android:layout_marginTop="11dp"
-        app:layout_constraintTop_toBottomOf="@+id/w_conjugation_title"
+        app:layout_constraintTop_toBottomOf="@+id/w_examples_title"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/w_conjugation_title"
+        app:layout_constraintLeft_toLeftOf="@+id/w_examples_title"
         android:layout_marginLeft="0dp" />
 
     <TextView
@@ -101,12 +101,12 @@
         android:id="@+id/w_conjugation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="conjugation"
         tools:layout_constraintTop_creator="1"
         android:layout_marginTop="14dp"
-        app:layout_constraintTop_toBottomOf="@+id/w_examples_title"
+        app:layout_constraintTop_toBottomOf="@+id/w_conjugation_title"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/w_examples_title"
+        app:layout_constraintLeft_toLeftOf="@+id/w_conjugation_title"
         android:layout_marginLeft="0dp" />
 
 </android.support.constraint.ConstraintLayout>
