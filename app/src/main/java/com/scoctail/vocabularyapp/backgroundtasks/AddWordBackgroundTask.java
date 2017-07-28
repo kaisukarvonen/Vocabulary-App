@@ -28,8 +28,9 @@ public class AddWordBackgroundTask extends AsyncTask<String, Void, String> {
             String translation = params[2];
             String examples = params[3];
             String conjugation = params[4];
+            String wordClass = params[5];
             Word word = new Word(name,translation,examples,conjugation);
-            helper.addWord(word, 1, 0, 0);
+            helper.addWord(word, 1, 0, 0); //wordclass id?
             return "New word added to vocabulary!";
         }
 

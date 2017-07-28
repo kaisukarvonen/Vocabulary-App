@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.scoctail.vocabularyapp.activities.DisplayWords"
     android:orientation="vertical"
-    android:id="@+id/linear">
+    android:id="@+id/mainpage">
 
 
 
@@ -22,14 +22,14 @@
         android:layout_height="65dp"
         android:layout_marginLeft="260dp"
         android:layout_marginTop="410dp"
+        android:background="@drawable/oval"
         android:clickable="true"
         android:onClick="goToAddWordPage"
-        android:background="@drawable/oval"
-        app:backgroundTint="@color/colorPrimary"
-        app:rippleColor="@android:color/background_light"
         android:src="@drawable/ic_add_240"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_anchor="@+id/display_listview"
 
-        />
+        app:rippleColor="@android:color/background_light" />
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -13,6 +13,10 @@ import com.scoctail.vocabularyapp.beans.Word;
 import com.scoctail.vocabularyapp.beans.WordClass;
 import com.scoctail.vocabularyapp.contract.VocabularyContract;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
 /**
  * Created by Kaisu on 23/3/17.
  */
@@ -107,21 +111,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getLanguages() {
         Log.d("where?", "here");
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         String [] columns = {VocabularyContract.KEY_ID, VocabularyContract.KEY_NAME};
         Cursor c = db.query(VocabularyContract.TABLE_LANGUAGE, columns, null, null, null, null, null);
-
+        //db.close();
         return c;
+    }
 
+    public List<String> getLanguagesString() {
+        List<String> languages = new ArrayList<String>();
+        String selectLanguages = "SELECT "+VocabularyContract.KEY_NAME+" FROM "+VocabularyContract.TABLE_LANGUAGE+";";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectLanguages, null);
+        if (c.moveToFirst()) {
+            do {
+                languages.add(c.getString(0));
+            } while (c.moveToNext());
+        }
+        return languages;
     }
 
     public Cursor getWordsByLanguage(int la_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         String [] columns = {VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION};
         Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.WordEntry.KEY_LANGUAGE+" = "+la_id, null, null, null, null);
-
+        //db.close();
         return c;
-
     }
 
     public Cursor getWord(String name) {
@@ -129,7 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String [] columns = {VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION, VocabularyContract.WordEntry.KEY_CONJUGATION, VocabularyContract.WordEntry.KEY_EXAMPLES};
         Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.KEY_NAME+" = "+name, null, null, null, null);
-
+        //db.close();
         return c;
     }
 
