@@ -114,21 +114,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String [] columns = {VocabularyContract.KEY_ID, VocabularyContract.KEY_NAME};
         Cursor c = db.query(VocabularyContract.TABLE_LANGUAGE, columns, null, null, null, null, null);
-        //db.close();
+
         return c;
     }
 
-    public List<String> getLanguagesString() {
-        List<String> languages = new ArrayList<String>();
-        String selectLanguages = "SELECT "+VocabularyContract.KEY_NAME+" FROM "+VocabularyContract.TABLE_LANGUAGE+";";
+    public List<WordClass> getWordclassesString() {
+        List<WordClass> wordclasses = new ArrayList<WordClass>();
+        String selectwordclasses = "SELECT "+VocabularyContract.KEY_NAME+","+ VocabularyContract.KEY_ID+" FROM "+VocabularyContract.TABLE_WORDCLASS+";";
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery(selectLanguages, null);
+        Cursor c = db.rawQuery(selectwordclasses, null);
         if (c.moveToFirst()) {
             do {
-                languages.add(c.getString(0));
+                wordclasses.add(new WordClass(c.getInt(c.getColumnIndex("id")), c.getString(c.getColumnIndex("name"))));
             } while (c.moveToNext());
         }
-        return languages;
+        return wordclasses;
     }
 
     public Cursor getWordsByLanguage(int la_id) {
@@ -139,13 +139,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c;
     }
 
-    public Cursor getWord(String name) {
+    public Word getWord(String name) {
         name = "'"+name+"'";
-        SQLiteDatabase db = this.getWritableDatabase();
-        String [] columns = {VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION, VocabularyContract.WordEntry.KEY_CONJUGATION, VocabularyContract.WordEntry.KEY_EXAMPLES};
+        SQLiteDatabase db = this.getReadableDatabase();
+        String [] columns = {VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION, VocabularyContract.WordEntry.KEY_CONJUGATION, VocabularyContract.WordEntry.KEY_EXAMPLES, VocabularyContract.WordEntry.KEY_WORDCLASS};
         Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.KEY_NAME+" = "+name, null, null, null, null);
-        //db.close();
-        return c;
+
+        /*
+        String rawQuery = ("SELECT name, translation, conjugation, examples FROM "+VocabularyContract.TABLE_WORD + " WHERE name = "+name+";");
+        Cursor c = db.rawQuery(rawQuery, null);
+        Log.d("getWord", "done");*/
+        Word word = new Word();
+        c.moveToFirst();
+        word.setName(c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME)));
+        word.setTranslation(c.getString(c.getColumnIndex(VocabularyContract.WordEntry.KEY_TRANSLATION)));
+        word.setConjugation(c.getString(c.getColumnIndex(VocabularyContract.WordEntry.KEY_CONJUGATION)));
+        word.setExamples(c.getString(c.getColumnIndex(VocabularyContract.WordEntry.KEY_EXAMPLES)));
+        int wordclassId = c.getInt(c.getColumnIndex(VocabularyContract.WordEntry.KEY_WORDCLASS));
+        if (wordclassId == 0) {
+            word.setWordclass("");
+        } else {
+            word.setWordclass(getWordClassName(wordclassId));
+        }
+
+        return word;
+    }
+
+    public String getWordClassName(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String [] columns = {VocabularyContract.KEY_NAME};
+        Cursor c = db.query(VocabularyContract.TABLE_WORDCLASS, columns, VocabularyContract.KEY_ID+" = "+id, null, null, null, null);
+        c.moveToFirst();
+        return c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME));
     }
 
 

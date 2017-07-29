@@ -2,6 +2,7 @@ package com.scoctail.vocabularyapp.backgroundtasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.scoctail.vocabularyapp.beans.Word;
@@ -26,11 +27,12 @@ public class AddWordBackgroundTask extends AsyncTask<String, Void, String> {
         if(method.equals("addWord")) {
             String name = params[1];
             String translation = params[2];
-            String examples = params[3];
-            String conjugation = params[4];
+            String conjugation = params[3];
+            String examples = params[4];
             String wordClass = params[5];
+            Log.d("wordclass", wordClass);
             Word word = new Word(name,translation,examples,conjugation);
-            helper.addWord(word, 1, 0, 0); //wordclass id?
+            helper.addWord(word, 1, 0, Integer.parseInt(wordClass)); //wordclass id?
             return "New word added to vocabulary!";
         }
 

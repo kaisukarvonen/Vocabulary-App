@@ -36,19 +36,7 @@ public class WordDetailsBackgroundTask extends AsyncTask<String, Void, Word> {
         DatabaseHelper helper = new DatabaseHelper(ctx);
 
         if (method.equals("showDetails")) {
-            Cursor c = helper.getWord(params[1]);
-
-            String name, translation, conjugation, examples;
-            Word word = null;
-
-            while (c.moveToNext()) {
-                name = c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME));
-                translation = c.getString(c.getColumnIndex(VocabularyContract.WordEntry.KEY_TRANSLATION));
-                conjugation = c.getString(c.getColumnIndex(VocabularyContract.WordEntry.KEY_CONJUGATION));
-                examples = c.getString(c.getColumnIndex(VocabularyContract.WordEntry.KEY_EXAMPLES));
-                word = new Word(name, translation, conjugation, examples);
-            }
-
+            Word word = helper.getWord(params[1]);
             return word;
         }
         return null;
@@ -56,12 +44,13 @@ public class WordDetailsBackgroundTask extends AsyncTask<String, Void, Word> {
 
     @Override
     protected void onPostExecute(Word word) {
-        TextView t_name, t_translation, t_conjugation, t_examples;
+        TextView t_name, t_translation, t_conjugation, t_examples, t_wordclass;
         if(word != null) {
             t_name = (TextView)ac.findViewById(R.id.w_name);
             t_conjugation = (TextView)ac.findViewById(R.id.w_conjugation);
             t_translation = (TextView)ac.findViewById(R.id.w_translation);
             t_examples = (TextView)ac.findViewById(R.id.w_examples);
+            t_wordclass = (TextView)ac.findViewById(R.id.w_wordclass);
 
             if (word.getExamples().isEmpty()) {
                 t_examples.setVisibility(TextView.INVISIBLE);
@@ -75,6 +64,13 @@ public class WordDetailsBackgroundTask extends AsyncTask<String, Void, Word> {
                 (ac.findViewById(R.id.w_conjugation_title)).setVisibility(TextView.INVISIBLE);
             } else {
                 t_conjugation.setText(word.getConjugation());
+            }
+
+            if (word.getWordclass().isEmpty()) {
+                t_wordclass.setVisibility(TextView.INVISIBLE);
+                (ac.findViewById(R.id.w_wordclass_title)).setVisibility(TextView.INVISIBLE);
+            } else {
+                t_wordclass.setText(word.getWordclass());
             }
 
             t_name.setText(word.getName());

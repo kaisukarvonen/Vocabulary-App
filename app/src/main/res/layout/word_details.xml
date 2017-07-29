@@ -25,19 +25,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="name"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="7dp"
         app:layout_constraintTop_toBottomOf="@+id/w_name_title"
         app:layout_constraintLeft_toLeftOf="@+id/w_name_title"
-        android:layout_marginLeft="0dp" />
+        android:layout_marginLeft="4dp" />
 
 
     <TextView
         android:id="@+id/w_translation_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="23dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="128dp"
         android:text="Translation"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -51,19 +51,19 @@
         android:layout_height="wrap_content"
         android:text="translation"
         tools:layout_constraintTop_creator="1"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="9dp"
         app:layout_constraintTop_toBottomOf="@+id/w_translation_title"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="@+id/w_translation_title"
-        android:layout_marginLeft="8dp" />
+        android:layout_marginLeft="4dp" />
 
     <TextView
         android:id="@+id/w_examples_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="314dp"
+        android:layout_marginTop="265dp"
         android:text="Examples"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -77,19 +77,19 @@
         android:layout_height="wrap_content"
         android:text="examples"
         tools:layout_constraintTop_creator="1"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="9dp"
         app:layout_constraintTop_toBottomOf="@+id/w_examples_title"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="@+id/w_examples_title"
-        android:layout_marginLeft="0dp" />
+        android:layout_marginLeft="4dp" />
 
     <TextView
         android:id="@+id/w_conjugation_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="230dp"
+        android:layout_marginTop="198dp"
         android:text="Conjugation"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -103,10 +103,36 @@
         android:layout_height="wrap_content"
         android:text="conjugation"
         tools:layout_constraintTop_creator="1"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="9dp"
         app:layout_constraintTop_toBottomOf="@+id/w_conjugation_title"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="@+id/w_conjugation_title"
-        android:layout_marginLeft="0dp" />
+        android:layout_marginLeft="4dp" />
+
+    <TextView
+        android:id="@+id/w_wordclass_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="338dp"
+        android:text="Word class"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <TextView
+        android:id="@+id/w_wordclass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="word class"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginTop="82dp"
+        app:layout_constraintTop_toBottomOf="@+id/w_examples_title"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/w_examples_title"
+        android:layout_marginLeft="4dp" />
 
 </android.support.constraint.ConstraintLayout>

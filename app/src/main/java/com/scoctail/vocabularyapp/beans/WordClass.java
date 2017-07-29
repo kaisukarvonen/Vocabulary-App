@@ -8,6 +8,14 @@ public class WordClass {
     int id;
     String name;
 
+    public WordClass() {
+    }
+
+    public WordClass(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public WordClass(String name) {
         this.name = name;
     }

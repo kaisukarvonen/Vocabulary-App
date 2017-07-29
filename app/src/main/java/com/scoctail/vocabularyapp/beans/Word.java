@@ -5,15 +5,31 @@ package com.scoctail.vocabularyapp.beans;
  */
 
 public class Word {
-    int id;
-    String name;
-    String translation;
-    String examples;
-    String conjugation;
+    private int id;
+    private String name,translation, examples,conjugation,wordclass;
+
+    public String getWordclass() {
+        return wordclass;
+    }
+
+    public void setWordclass(String wordclass) {
+        this.wordclass = wordclass;
+    }
+
+    public Word() {
+    }
 
     public Word(String name, String translation) {
         this.name = name;
         this.translation = translation;
+    }
+
+    public Word(String name, String translation, String examples, String conjugation, String wordclass) {
+        this.name = name;
+        this.translation = translation;
+        this.examples = examples;
+        this.conjugation = conjugation;
+        this.wordclass = wordclass;
     }
 
     public Word(String name, String translation, String examples, String conjugation) {
