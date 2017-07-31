@@ -13,6 +13,9 @@ import com.scoctail.vocabularyapp.beans.Word;
 import com.scoctail.vocabularyapp.beans.WordClass;
 import com.scoctail.vocabularyapp.contract.VocabularyContract;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -24,9 +27,11 @@ import java.util.StringTokenizer;
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "vocabularyApp";
+    Context ctx;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.ctx = context;
     }
 
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -47,6 +52,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("insert into "+VocabularyContract.TABLE_WORDCLASS+" ("+VocabularyContract.KEY_NAME+") values ('Verbs');");
         db.execSQL("insert into "+VocabularyContract.TABLE_WORDCLASS+" ("+VocabularyContract.KEY_NAME+") values ('Nouns');");
         db.execSQL("insert into "+VocabularyContract.TABLE_WORDCLASS+" ("+VocabularyContract.KEY_NAME+") values ('Adjectives');");
+
+
+        writeToInternalStorage(ctx, Integer.toString(1), "language_id");
+    }
+
+    public static void writeToInternalStorage(Context ctx, String message, String file) {
+        try {
+            FileOutputStream fos = ctx.openFileOutput(file, ctx.MODE_PRIVATE);
+            fos.write(message.getBytes());
+            Log.d("writeToInternalStorage", "wrote "+message+" to file "+file);
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String readFromInternalStorage(Context ctx, String file) {
+        String content ="";
+        try {
+            FileInputStream fis = ctx.openFileInput(file);
+            int txt = fis.read();
+            //Log.d("file content", Character.toString((char)txt));
+            content = Character.toString((char)txt);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return content;
     }
 
     @Override
@@ -118,6 +150,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c;
     }
 
+    public String getSelectedLanguage(Context ctx) {
+        String content = readFromInternalStorage(ctx, "language_id");
+        int id = Integer.parseInt(content);
+        Log.d("language id", Integer.toString(id));
+        SQLiteDatabase db = this.getReadableDatabase();
+        String [] columns = {VocabularyContract.KEY_NAME};
+        Cursor c = db.query(VocabularyContract.TABLE_LANGUAGE, columns, VocabularyContract.KEY_ID+" = "+id, null ,null, null,null);
+        c.moveToFirst();
+        Log.d("selected language", c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME)));
+        return c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME));
+
+    }
+
     public List<WordClass> getWordclassesString() {
         List<WordClass> wordclasses = new ArrayList<WordClass>();
         String selectwordclasses = "SELECT "+VocabularyContract.KEY_NAME+","+ VocabularyContract.KEY_ID+" FROM "+VocabularyContract.TABLE_WORDCLASS+";";
@@ -135,7 +180,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String [] columns = {VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION};
         Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.WordEntry.KEY_LANGUAGE+" = "+la_id, null, null, null, null);
-        //db.close();
         return c;
     }
 
@@ -145,10 +189,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String [] columns = {VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION, VocabularyContract.WordEntry.KEY_CONJUGATION, VocabularyContract.WordEntry.KEY_EXAMPLES, VocabularyContract.WordEntry.KEY_WORDCLASS};
         Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.KEY_NAME+" = "+name, null, null, null, null);
 
-        /*
-        String rawQuery = ("SELECT name, translation, conjugation, examples FROM "+VocabularyContract.TABLE_WORD + " WHERE name = "+name+";");
-        Cursor c = db.rawQuery(rawQuery, null);
-        Log.d("getWord", "done");*/
         Word word = new Word();
         c.moveToFirst();
         word.setName(c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME)));

@@ -16,11 +16,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.scoctail.vocabularyapp.R;
 import com.scoctail.vocabularyapp.adapters.WordAdapter;
 import com.scoctail.vocabularyapp.backgroundtasks.ShowWordsBackgroundTask;
 import com.scoctail.vocabularyapp.beans.Word;
+import com.scoctail.vocabularyapp.database.DatabaseHelper;
 
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,6 +36,8 @@ public class NavigationDrawer extends AppCompatActivity
         setContentView(R.layout.activity_navigation_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //DatabaseHelper.writeToInternalStorage(getApplicationContext(), "1", "language_id");
 
         ShowWordsBackgroundTask bg = new ShowWordsBackgroundTask(this);
         bg.execute("showWords");
@@ -52,15 +56,6 @@ public class NavigationDrawer extends AppCompatActivity
             }
         });
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -69,6 +64,12 @@ public class NavigationDrawer extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+        View header = navigationView.getHeaderView(0);
+        TextView selectedLanguage = (TextView) header.findViewById(R.id.selected_language_name);
+        selectedLanguage.setText(db.getSelectedLanguage(getApplicationContext()));
+        //selectedLanguage.setText("plaa");
     }
 
     public void goToAddWordPage(View view) {
