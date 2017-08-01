@@ -8,24 +8,30 @@
     tools:context="com.scoctail.vocabularyapp.activities.NavigationDrawer"
     tools:showIn="@layout/app_bar_navigation_drawer">
 
-    <ListView
-        android:id="@+id/display_listview"
+    <FrameLayout
+        android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_marginLeft="280dp"
-        android:layout_marginTop="430dp"
-        android:background="@drawable/oval"
-        android:clickable="true"
-        android:onClick="goToAddWordPage"
-        android:src="@drawable/ic_add_240"
-        app:backgroundTint="@color/colorPrimary"
-        app:layout_anchor="@+id/display_listview"
+        <ListView
+            android:id="@+id/display_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-        app:rippleColor="@android:color/background_light" />
+        <ImageButton
+            android:id="@+id/addButton"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="280dp"
+            android:layout_marginTop="430dp"
+            android:background="@drawable/oval"
+            android:clickable="true"
+            android:onClick="goToAddWordPage"
+            android:src="@drawable/ic_add_240"
+            app:backgroundTint="@color/colorPrimary"
+            app:layout_anchor="@+id/display_listview" />
+    </FrameLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -15,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,6 +32,7 @@ public class NavigationDrawer extends AppCompatActivity
 
     ListView lv;
     WordAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,7 @@ public class NavigationDrawer extends AppCompatActivity
         this.startActivity(i);
     }
 
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -85,6 +90,8 @@ public class NavigationDrawer extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            findViewById(R.id.display_listview).setVisibility(View.VISIBLE);
+            findViewById(R.id.addButton).setVisibility(View.VISIBLE);
         }
     }
 
@@ -115,10 +122,18 @@ public class NavigationDrawer extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        FrameLayout framelayout = (FrameLayout) findViewById(R.id.content_frame);
+        FragmentManager fm = getSupportFragmentManager();
+        //framelayout.removeAllViewsInLayout();
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_themes) {
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.addToBackStack(null);
+            findViewById(R.id.display_listview).setVisibility(View.INVISIBLE);
+            findViewById(R.id.addButton).setVisibility(View.INVISIBLE);
+            ft.replace(R.id.content_frame, new ThemesFragment()).commit();
 
         } else if (id == R.id.nav_slideshow) {
 

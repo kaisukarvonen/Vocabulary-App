@@ -17,7 +17,7 @@
         android:layout_height="match_parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/addButton"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_marginLeft="280dp"

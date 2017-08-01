@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,22 +54,22 @@ public class WordDetailsBackgroundTask extends AsyncTask<String, Void, Word> {
             t_wordclass = (TextView)ac.findViewById(R.id.w_wordclass);
 
             if (word.getExamples().isEmpty()) {
-                t_examples.setVisibility(TextView.INVISIBLE);
-                (ac.findViewById(R.id.w_examples_title)).setVisibility(TextView.INVISIBLE);
+                t_examples.setVisibility(TextView.GONE);
+                (ac.findViewById(R.id.w_examples_title)).setVisibility(TextView.GONE);
             } else {
                 t_examples.setText(word.getExamples());
             }
 
             if (word.getConjugation().isEmpty()) {
-                t_conjugation.setVisibility(TextView.INVISIBLE);
-                (ac.findViewById(R.id.w_conjugation_title)).setVisibility(TextView.INVISIBLE);
+                t_conjugation.setVisibility(View.GONE);
+                (ac.findViewById(R.id.w_conjugation_title)).setVisibility(View.GONE);
             } else {
                 t_conjugation.setText(word.getConjugation());
             }
 
             if (word.getWordclass().isEmpty()) {
-                t_wordclass.setVisibility(TextView.INVISIBLE);
-                (ac.findViewById(R.id.w_wordclass_title)).setVisibility(TextView.INVISIBLE);
+                t_wordclass.setVisibility(TextView.GONE);
+                (ac.findViewById(R.id.w_wordclass_title)).setVisibility(TextView.GONE);
             } else {
                 t_wordclass.setText(word.getWordclass());
             }
