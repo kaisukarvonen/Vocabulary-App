@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.telecom.InCallService;
 import android.util.Log;
 
 import com.scoctail.vocabularyapp.beans.Language;
@@ -141,6 +142,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(VocabularyContract.TABLE_WORD, null, values);
     }
 
+    public void addTheme(String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(VocabularyContract.KEY_NAME, name);
+        db.insert(VocabularyContract.TABLE_THEME,null,values);
+    }
+
     public Cursor getLanguages() {
         Log.d("where?", "here");
         SQLiteDatabase db = this.getReadableDatabase();
@@ -174,6 +182,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         return wordclasses;
+    }
+
+    public List<Theme> getThemes() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT "+VocabularyContract.KEY_NAME+ ","+VocabularyContract.KEY_ID+" FROM "+VocabularyContract.TABLE_THEME+";",null);
+        List<Theme> themes = new ArrayList<Theme>();
+        if (c.moveToFirst()) {
+            do {
+                themes.add(new Theme(c.getInt(c.getColumnIndex(VocabularyContract.KEY_ID)),c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME))));
+            } while (c.moveToNext());
+        }
+
+        return themes;
     }
 
     public Cursor getWordsByLanguage(int la_id) {

@@ -2,8 +2,7 @@ package com.scoctail.vocabularyapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.provider.ContactsContract;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -45,7 +44,7 @@ public class NavigationDrawer extends AppCompatActivity
 
         ShowWordsBackgroundTask bg = new ShowWordsBackgroundTask(this);
         bg.execute("showWords");
-        lv = (ListView) findViewById(R.id.display_listview);
+        lv = (ListView) findViewById(R.id.words_listview);
         lv.setAdapter(adapter);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -90,7 +89,7 @@ public class NavigationDrawer extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-            findViewById(R.id.display_listview).setVisibility(View.VISIBLE);
+            findViewById(R.id.words_listview).setVisibility(View.VISIBLE);
             findViewById(R.id.addButton).setVisibility(View.VISIBLE);
         }
     }
@@ -131,7 +130,7 @@ public class NavigationDrawer extends AppCompatActivity
         } else if (id == R.id.nav_themes) {
             FragmentTransaction ft = fm.beginTransaction();
             ft.addToBackStack(null);
-            findViewById(R.id.display_listview).setVisibility(View.INVISIBLE);
+            findViewById(R.id.words_listview).setVisibility(View.INVISIBLE);
             findViewById(R.id.addButton).setVisibility(View.INVISIBLE);
             ft.replace(R.id.content_frame, new ThemesFragment()).commit();
 

@@ -23,7 +23,7 @@ public class DisplayWords extends AppCompatActivity {
         setContentView(R.layout.main_page);
         ShowWordsBackgroundTask bg = new ShowWordsBackgroundTask(this);
         bg.execute("showWords");
-        lv = (ListView) findViewById(R.id.display_listview);
+        lv = (ListView) findViewById(R.id.words_listview);
         lv.setAdapter(adapter);
 
         lv.setOnItemClickListener(new OnItemClickListener() {

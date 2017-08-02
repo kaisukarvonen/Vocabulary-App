@@ -12,7 +12,7 @@
 
 
     <ListView
-        android:id="@+id/display_listview"
+        android:id="@+id/words_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -27,7 +27,7 @@
         android:onClick="goToAddWordPage"
         android:src="@drawable/ic_add_240"
         app:backgroundTint="@color/colorPrimary"
-        app:layout_anchor="@+id/display_listview"
+        app:layout_anchor="@+id/words_listview"
 
         app:rippleColor="@android:color/background_light" />
 

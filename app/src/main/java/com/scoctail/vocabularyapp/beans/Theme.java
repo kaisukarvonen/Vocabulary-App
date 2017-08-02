@@ -14,6 +14,11 @@ public class Theme {
         this.description = description;
     }
 
+    public Theme(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }

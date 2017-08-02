@@ -12,9 +12,6 @@ import com.scoctail.vocabularyapp.contract.VocabularyContract;
 import com.scoctail.vocabularyapp.database.DatabaseHelper;
 import com.scoctail.vocabularyapp.R;
 import com.scoctail.vocabularyapp.adapters.WordAdapter;
-import com.scoctail.vocabularyapp.beans.Language;
-
-import static android.R.attr.id;
 
 /**
  * Created by Kaisu on 30/3/17.
@@ -37,7 +34,7 @@ public class ShowWordsBackgroundTask extends AsyncTask<String, Word, String> {
         String method = params[0];
         if(method.equals("showWords")) {
             DatabaseHelper dbhelper = new DatabaseHelper(ctx);
-            lv = (ListView) ac.findViewById(R.id.display_listview);
+            lv = (ListView) ac.findViewById(R.id.words_listview);
             wa = new WordAdapter(ctx, R.layout.word_row);
             Cursor c = dbhelper.getWordsByLanguage(1);
             String name, translation;
