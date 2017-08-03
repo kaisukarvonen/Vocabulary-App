@@ -149,6 +149,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(VocabularyContract.TABLE_THEME,null,values);
     }
 
+    public void addWordclass(String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(VocabularyContract.KEY_NAME, name);
+        db.insert(VocabularyContract.TABLE_WORDCLASS,null,values);
+    }
+
     public Cursor getLanguages() {
         Log.d("where?", "here");
         SQLiteDatabase db = this.getReadableDatabase();
@@ -171,7 +178,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public List<WordClass> getWordclassesString() {
+    public List<WordClass> getWordclasses() {
         List<WordClass> wordclasses = new ArrayList<WordClass>();
         String selectwordclasses = "SELECT "+VocabularyContract.KEY_NAME+","+ VocabularyContract.KEY_ID+" FROM "+VocabularyContract.TABLE_WORDCLASS+";";
         SQLiteDatabase db = this.getReadableDatabase();

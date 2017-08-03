@@ -14,8 +14,8 @@
         <TextView
             android:layout_width="400dp"
             android:layout_height="wrap_content"
-            android:text="Themes"
-            android:id="@+id/themes_title"
+            android:text="Word classes"
+            android:id="@+id/wordclasses_title"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="38dp"
             android:layout_marginBottom="10dp"
@@ -23,23 +23,23 @@
             />
 
         <ListView
-            android:id="@+id/themes_listview"
+            android:id="@+id/wordclasses_listview"
             android:layout_width="match_parent"
             android:layout_height="360dp"
-            android:layout_below="@+id/themes_title"/>
+            android:layout_below="@+id/wordclasses_title"/>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/enter_theme_name"
+                android:id="@+id/enter_wordclass_name"
                 android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="17dp"
                 android:layout_marginLeft="36dp"
                 app:hintEnabled="false"
-                android:layout_below="@+id/themes_listview"
+                android:layout_below="@+id/wordclasses_listview"
                 >
                 <EditText
-                    android:id="@+id/new_theme_name"
-                    android:hint="Enter new theme..."
+                    android:id="@+id/new_wordclass_name"
+                    android:hint="Enter new word class..."
                     android:layout_width="230dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -47,17 +47,17 @@
             </android.support.design.widget.TextInputLayout>
 
             <ImageButton
-                android:id="@+id/add_new_theme_btn"
+                android:id="@+id/add_new_wordclass_btn"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_toRightOf="@+id/enter_theme_name"
+                android:layout_toRightOf="@+id/enter_wordclass_name"
                 android:layout_marginTop="18dp"
                 android:background="@drawable/oval"
                 android:clickable="true"
-                android:onClick="saveNewTheme"
+                android:onClick="saveNewWordclass"
                 android:src="@drawable/ic_add_240"
                 app:backgroundTint="@color/colorPrimary"
-                android:layout_below="@+id/themes_listview"/>
+                android:layout_below="@+id/wordclasses_listview"/>
 
 
 

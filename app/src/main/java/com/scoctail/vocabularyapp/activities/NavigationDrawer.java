@@ -124,18 +124,20 @@ public class NavigationDrawer extends AppCompatActivity
         FrameLayout framelayout = (FrameLayout) findViewById(R.id.content_frame);
         FragmentManager fm = getSupportFragmentManager();
         //framelayout.removeAllViewsInLayout();
+        findViewById(R.id.words_listview).setVisibility(View.INVISIBLE);
+        findViewById(R.id.addButton).setVisibility(View.INVISIBLE);
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_themes) {
             FragmentTransaction ft = fm.beginTransaction();
             ft.addToBackStack(null);
-            findViewById(R.id.words_listview).setVisibility(View.INVISIBLE);
-            findViewById(R.id.addButton).setVisibility(View.INVISIBLE);
             ft.replace(R.id.content_frame, new ThemesFragment()).commit();
 
-        } else if (id == R.id.nav_slideshow) {
-
+        } else if (id == R.id.nav_wordclasses) {
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.addToBackStack(null);
+            ft.replace(R.id.content_frame, new WordclassesFragment()).commit();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

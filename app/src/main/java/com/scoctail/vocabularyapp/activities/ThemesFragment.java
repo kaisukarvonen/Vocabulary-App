@@ -54,6 +54,7 @@ public class ThemesFragment extends Fragment
             public void onClick(View v) {
                 et_name = (EditText)view.findViewById(R.id.new_theme_name);
                 saveNewTheme(v);
+                et_name.setText("");
             }
         });
 

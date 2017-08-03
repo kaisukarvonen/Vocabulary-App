@@ -4,17 +4,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.scoctail.vocabularyapp.R;
 import com.scoctail.vocabularyapp.backgroundtasks.AddWordBackgroundTask;
-import com.scoctail.vocabularyapp.beans.Word;
 import com.scoctail.vocabularyapp.beans.WordClass;
 import com.scoctail.vocabularyapp.database.DatabaseHelper;
 
@@ -44,7 +41,7 @@ public class AddWord extends AppCompatActivity  implements AdapterView.OnItemSel
     public void showSpinnerOptions() {
 
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-        wordclasses = db.getWordclassesString();
+        wordclasses = db.getWordclasses();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapter.add("Select word class");

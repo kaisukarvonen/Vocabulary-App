@@ -2,18 +2,15 @@ package com.scoctail.vocabularyapp.backgroundtasks;
 
 import android.app.Activity;
 import android.content.Context;
-import android.database.Cursor;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.scoctail.vocabularyapp.R;
 import com.scoctail.vocabularyapp.adapters.ThemeAdapter;
-import com.scoctail.vocabularyapp.adapters.WordAdapter;
+import com.scoctail.vocabularyapp.adapters.WordclassAdapter;
 import com.scoctail.vocabularyapp.beans.Theme;
-import com.scoctail.vocabularyapp.beans.Word;
-import com.scoctail.vocabularyapp.contract.VocabularyContract;
+import com.scoctail.vocabularyapp.beans.WordClass;
 import com.scoctail.vocabularyapp.database.DatabaseHelper;
 
 import java.util.List;
@@ -22,28 +19,28 @@ import java.util.List;
  * Created by Kaisu on 30/3/17.
  */
 
-public class ShowThemesBackgroundTask extends AsyncTask<String, Theme, Boolean> {
+public class ShowWordclassesBackgroundTask extends AsyncTask<String, WordClass, Boolean> {
 
-    ThemeAdapter ta;
+    WordclassAdapter wa;
     Context ctx;
     Activity ac;
 
-    public ShowThemesBackgroundTask(Context ctx, ThemeAdapter adapter) {
+    public ShowWordclassesBackgroundTask(Context ctx, WordclassAdapter adapter) {
         this.ctx = ctx;
         this.ac = (Activity)ctx;
-        this.ta = adapter;
+        this.wa = adapter;
     }
 
     @Override
     protected Boolean doInBackground(String... params) {
         String method = params[0];
-        if(method.equals("showThemes")) {
+        if(method.equals("showWordclasses")) {
 
             DatabaseHelper dbhelper = new DatabaseHelper(ctx);
-            List<Theme> themes = dbhelper.getThemes();
+            List<WordClass> wordclasses = dbhelper.getWordclasses();
 
-            for (Theme t : themes) {
-                publishProgress(t);
+            for (WordClass wc : wordclasses) {
+                publishProgress(wc);
             }
             return true;
         }
@@ -51,15 +48,15 @@ public class ShowThemesBackgroundTask extends AsyncTask<String, Theme, Boolean> 
     }
 
     @Override
-    protected void onProgressUpdate(Theme... values) {
+    protected void onProgressUpdate(WordClass... values) {
 
-        ta.add(values[0]);
+        wa.add(values[0]);
     }
 
 
     protected void onPostExecute(Boolean result) {
         if(!result) {
-            Toast.makeText(ctx, "Error showing themes", Toast.LENGTH_LONG);
+            Toast.makeText(ctx, "Error showing word classes", Toast.LENGTH_LONG);
         }
     }
 }
