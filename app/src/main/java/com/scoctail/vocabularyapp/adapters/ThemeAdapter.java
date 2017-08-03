@@ -20,10 +20,13 @@ import java.util.List;
 
 public class ThemeAdapter extends ArrayAdapter {
     List list = new ArrayList();
-
+    int resource;
+    Context ctx;
 
     public ThemeAdapter(Context context, int resource) {
         super(context, resource);
+        this.resource = resource;
+        this.ctx = context;
     }
 
     public void add(Theme object) {
@@ -45,17 +48,24 @@ public class ThemeAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView name;
         View row = convertView;
+        ThemeHolder th = null;
         if (row == null) {
             LayoutInflater lainf = (LayoutInflater)this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = lainf.inflate(R.layout.theme_row, parent, false);
-            name = (TextView)row.findViewById(R.id.theme_name);
-            Theme theme = (Theme)getItem(position);
-            name.setText(theme.getName().toString());
+            row = lainf.inflate(resource, parent, false);
+            th = new ThemeHolder();
+            th.name = (TextView)row.findViewById(R.id.theme_name);
+            row.setTag(th);
 
+        } else {
+            th = (ThemeHolder)row.getTag();
         }
-
+        Theme theme = (Theme)getItem(position);
+        th.name.setText(theme.getName().toString());
         return row;
+    }
+
+    static class ThemeHolder {
+        TextView name;
     }
 }

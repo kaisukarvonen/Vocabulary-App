@@ -9,9 +9,8 @@ public class Theme {
     String name;
     String description;
 
-    public Theme(String name, String description) {
+    public Theme(String name) {
         this.name = name;
-        this.description = description;
     }
 
     public Theme(int id, String name) {

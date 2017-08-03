@@ -29,9 +29,10 @@ public class ShowThemesBackgroundTask extends AsyncTask<String, Theme, String> {
     Activity ac;
     ListView lv;
 
-    public ShowThemesBackgroundTask(Context ctx) {
+    public ShowThemesBackgroundTask(Context ctx, ThemeAdapter adapter) {
         this.ctx = ctx;
         this.ac = (Activity)ctx;
+        this.ta = adapter;
     }
 
     @Override
@@ -41,15 +42,12 @@ public class ShowThemesBackgroundTask extends AsyncTask<String, Theme, String> {
 
             DatabaseHelper dbhelper = new DatabaseHelper(ctx);
             lv = (ListView) ac.findViewById(R.id.themes_listview);
-            ta = new ThemeAdapter(ctx, R.layout.theme_row);
             List<Theme> themes = dbhelper.getThemes();
 
             for (Theme t : themes) {
                 publishProgress(t);
-                Log.d("theme", t.getName());
             }
-            Log.d("themes bg", "doInBackground"+themes.size()+"--");
-            return "showThemes";
+            return "listedThemes";
         }
         return null;
     }
@@ -60,12 +58,12 @@ public class ShowThemesBackgroundTask extends AsyncTask<String, Theme, String> {
         ta.add(values[0]);
     }
 
-    @Override
+
     protected void onPostExecute(String result) {
-        if(result.equals("showThemes")) {
-            lv.setAdapter(ta);
+        if(result.equals("listedThemes")) {
+
         } else {
-            Toast.makeText(ctx, result, Toast.LENGTH_LONG);
+            Toast.makeText(ctx, "Error showing themes", Toast.LENGTH_LONG);
         }
     }
 }

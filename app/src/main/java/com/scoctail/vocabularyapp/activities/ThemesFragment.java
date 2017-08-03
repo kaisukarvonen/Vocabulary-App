@@ -22,6 +22,7 @@ import com.scoctail.vocabularyapp.backgroundtasks.AddWordBackgroundTask;
 import com.scoctail.vocabularyapp.backgroundtasks.ShowThemesBackgroundTask;
 import com.scoctail.vocabularyapp.backgroundtasks.ShowWordsBackgroundTask;
 import com.scoctail.vocabularyapp.beans.Theme;
+import com.scoctail.vocabularyapp.database.DatabaseHelper;
 
 /**
  * Created by Kaisu on 1.8.2017.
@@ -39,10 +40,11 @@ public class ThemesFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.themes_list, container,false);
 
-        ShowThemesBackgroundTask bg = new ShowThemesBackgroundTask(this.getContext());
-        bg.execute("showThemes");
+        adapter = new ThemeAdapter(getContext(), R.layout.theme_row);
         lv = (ListView)view.findViewById(R.id.themes_listview);
         lv.setAdapter(adapter);
+        ShowThemesBackgroundTask bg = new ShowThemesBackgroundTask(this.getContext(), adapter);
+        bg.execute("showThemes");
 
 
         ImageButton btn = (ImageButton)view.findViewById(R.id.add_new_theme_btn);
@@ -65,13 +67,12 @@ public class ThemesFragment extends Fragment
         if(name.isEmpty()) {
             Toast.makeText(this.getContext(), "Please fill out theme name!", Toast.LENGTH_SHORT).show();
         } else {
-            AddThemeBackgroundTask bg = new AddThemeBackgroundTask(this.getContext());
+            AddThemeBackgroundTask bg = new AddThemeBackgroundTask(this.getContext(),adapter);
             bg.execute("addTheme", name);
 
         }
 
 
     }
-
 
 }
