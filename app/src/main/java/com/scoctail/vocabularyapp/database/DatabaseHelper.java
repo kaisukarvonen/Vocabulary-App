@@ -86,41 +86,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    public void closeDB() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        if (db != null && db.isOpen())
-            db.close();
-    }
-
-    public void addLanguage(Language l) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(VocabularyContract.KEY_NAME, l.getName());
-
-        db.insert(VocabularyContract.TABLE_LANGUAGE, null, values);
-    }
-
-    public void addWordClass(WordClass wordclass) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(VocabularyContract.KEY_NAME, wordclass.getName());
-
-        db.insert(VocabularyContract.TABLE_WORDCLASS, null, values);
-    }
-
-    public void addTheme(Theme theme) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(VocabularyContract.KEY_NAME, theme.getName());
-        if (theme.getDescription() != "" || theme.getDescription() != null) {
-            values.put(VocabularyContract.KEY_NAME, theme.getDescription());
-        }
-
-        db.insert(VocabularyContract.TABLE_THEME, null, values);
-    }
 
     public void addWord(Word word, int la_id, int theme_id, int wordclass_id) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -140,20 +105,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         db.insert(VocabularyContract.TABLE_WORD, null, values);
+        db.close();
     }
 
-    public void addTheme(String name) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(VocabularyContract.KEY_NAME, name);
-        db.insert(VocabularyContract.TABLE_THEME,null,values);
+    public Boolean addTheme(String name) {
+        if (!rowExists(VocabularyContract.KEY_NAME, name, VocabularyContract.TABLE_THEME)) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(VocabularyContract.KEY_NAME, name);
+            db.insert(VocabularyContract.TABLE_THEME,null,values);
+            db.close();
+            return true;
+        }
+        return false;
     }
 
-    public void addWordclass(String name) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(VocabularyContract.KEY_NAME, name);
-        db.insert(VocabularyContract.TABLE_WORDCLASS,null,values);
+    public Boolean addWordclass(String name) {
+        if (!rowExists(VocabularyContract.KEY_NAME, name, VocabularyContract.TABLE_WORDCLASS)) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(VocabularyContract.KEY_NAME, name);
+            db.insert(VocabularyContract.TABLE_WORDCLASS, null, values);
+            db.close();
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean addLanguage(String name) {
+        if (!rowExists(VocabularyContract.KEY_NAME, name, VocabularyContract.TABLE_LANGUAGE)) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(VocabularyContract.KEY_NAME, name);
+            db.insert(VocabularyContract.TABLE_LANGUAGE,null,values);
+            db.close();
+            return true;
+        }
+        return false;
     }
 
     public Cursor getLanguages() {
@@ -161,7 +149,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String [] columns = {VocabularyContract.KEY_ID, VocabularyContract.KEY_NAME};
         Cursor c = db.query(VocabularyContract.TABLE_LANGUAGE, columns, null, null, null, null, null);
-
+        db.close();
         return c;
     }
 
@@ -174,6 +162,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = db.query(VocabularyContract.TABLE_LANGUAGE, columns, VocabularyContract.KEY_ID+" = "+id, null ,null, null,null);
         c.moveToFirst();
         Log.d("selected language", c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME)));
+        db.close();
         return c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME));
 
     }
@@ -188,6 +177,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 wordclasses.add(new WordClass(c.getInt(c.getColumnIndex("id")), c.getString(c.getColumnIndex("name"))));
             } while (c.moveToNext());
         }
+        db.close();
         return wordclasses;
     }
 
@@ -200,12 +190,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 themes.add(new Theme(c.getInt(c.getColumnIndex(VocabularyContract.KEY_ID)),c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME))));
             } while (c.moveToNext());
         }
-
+        db.close();
         return themes;
     }
 
     public Cursor getWordsByLanguage(int la_id) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         String [] columns = {VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION};
         Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.WordEntry.KEY_LANGUAGE+" = "+la_id, null, null, null, null);
         return c;
@@ -229,7 +219,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             word.setWordclass(getWordClassName(wordclassId));
         }
-
+        db.close();
         return word;
     }
 
@@ -241,6 +231,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME));
     }
 
-
+    public Boolean rowExists(String fieldName, String value, String table) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String rawQuery = "SELECT id FROM "+table+ " WHERE "+fieldName+"='"+value+"' COLLATE NOCASE;";
+        Cursor c = db.rawQuery(rawQuery,null);
+        if (c.moveToFirst()) {
+            return true;
+        }
+        c.close();
+        db.close();
+        return false;
+    }
 
 }

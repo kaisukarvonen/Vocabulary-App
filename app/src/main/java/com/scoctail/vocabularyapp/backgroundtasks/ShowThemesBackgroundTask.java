@@ -59,7 +59,7 @@ public class ShowThemesBackgroundTask extends AsyncTask<String, Theme, Boolean> 
 
     protected void onPostExecute(Boolean result) {
         if(!result) {
-            Toast.makeText(ctx, "Error showing themes", Toast.LENGTH_LONG);
+            Toast.makeText(ctx, "Error showing themes", Toast.LENGTH_LONG).show();
         }
     }
 }

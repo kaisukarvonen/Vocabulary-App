@@ -31,17 +31,23 @@ public class AddThemeBackgroundTask extends AsyncTask<String, Void, Theme> {
 
         if(method.equals("addTheme")) {
             String name = params[1];
-            Log.d("new theme", name);
-            helper.addTheme(name);
-            return new Theme(name);
+            if (helper.addTheme(name)) {
+                return new Theme(name);
+            } else {
+                return null;
+            }
         }
 
         return null;
     }
 
     protected void onPostExecute(Theme addedTheme) {
-        ta.add(addedTheme);
-        ta.notifyDataSetChanged();
+        if (addedTheme == null) {
+            Toast.makeText(ctx, "This theme is already added!", Toast.LENGTH_LONG).show();
+        } else {
+            ta.add(addedTheme);
+            ta.notifyDataSetChanged();
+        }
 
     }
 }

@@ -56,7 +56,7 @@ public class ShowWordclassesBackgroundTask extends AsyncTask<String, WordClass, 
 
     protected void onPostExecute(Boolean result) {
         if(!result) {
-            Toast.makeText(ctx, "Error showing word classes", Toast.LENGTH_LONG);
+            Toast.makeText(ctx, "Error showing word classes", Toast.LENGTH_LONG).show();
         }
     }
 }

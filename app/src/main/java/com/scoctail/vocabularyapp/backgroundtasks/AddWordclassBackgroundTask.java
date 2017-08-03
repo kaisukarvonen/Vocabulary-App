@@ -3,6 +3,7 @@ package com.scoctail.vocabularyapp.backgroundtasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.scoctail.vocabularyapp.activities.WordclassesFragment;
 import com.scoctail.vocabularyapp.adapters.WordclassAdapter;
@@ -31,16 +32,23 @@ public class AddWordclassBackgroundTask extends AsyncTask<String, Void, WordClas
 
         if(method.equals("addWordclass")) {
             String name = params[1];
-            helper.addWordclass(name);
-            return new WordClass(name);
+            if (helper.addWordclass(name)) {
+                return new WordClass(name);
+            } else {
+                return null;
+            }
         }
 
         return null;
     }
 
     protected void onPostExecute(WordClass addedWordclass) {
-        ta.add(addedWordclass);
-        ta.notifyDataSetChanged();
+        if (addedWordclass == null) {
+            Toast.makeText(ctx, "This theme is already added!", Toast.LENGTH_LONG).show();
+        } else {
+            ta.add(addedWordclass);
+            ta.notifyDataSetChanged();
+        }
 
     }
 }
