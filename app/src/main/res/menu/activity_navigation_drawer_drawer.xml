@@ -3,9 +3,9 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_languages"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="Languages" />
         <item
             android:id="@+id/nav_themes"
             android:icon="@drawable/ic_menu_gallery"

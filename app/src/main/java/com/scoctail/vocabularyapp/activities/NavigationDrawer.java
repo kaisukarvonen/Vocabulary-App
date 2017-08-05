@@ -127,8 +127,10 @@ public class NavigationDrawer extends AppCompatActivity
         findViewById(R.id.words_listview).setVisibility(View.INVISIBLE);
         findViewById(R.id.addButton).setVisibility(View.INVISIBLE);
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.nav_languages) {
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.addToBackStack(null);
+            ft.replace(R.id.content_frame, new LanguagesFragment()).commit();
         } else if (id == R.id.nav_themes) {
             FragmentTransaction ft = fm.beginTransaction();
             ft.addToBackStack(null);

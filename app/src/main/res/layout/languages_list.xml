@@ -14,7 +14,7 @@
         <TextView
             android:layout_width="400dp"
             android:layout_height="wrap_content"
-            android:text="Themes"
+            android:text="Languages"
             android:id="@+id/languages_title"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="38dp"
@@ -39,7 +39,7 @@
                 >
                 <EditText
                     android:id="@+id/new_language_name"
-                    android:hint="Enter new theme..."
+                    android:hint="Enter new language..."
                     android:layout_width="230dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -47,14 +47,14 @@
             </android.support.design.widget.TextInputLayout>
 
             <ImageButton
-                android:id="@+id/add_new_theme_btn"
+                android:id="@+id/add_new_language_btn"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_toRightOf="@+id/enter_language_name"
                 android:layout_marginTop="18dp"
                 android:background="@drawable/oval"
                 android:clickable="true"
-                android:onClick="saveNewTheme"
+                android:onClick="saveNewLanguage"
                 android:src="@drawable/ic_add_240"
                 app:backgroundTint="@color/colorPrimary"
                 android:layout_below="@+id/languages_listview"/>

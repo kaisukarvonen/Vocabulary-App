@@ -13,6 +13,9 @@ public class Theme {
         this.name = name;
     }
 
+    public Theme() {
+    }
+
     public Theme(int id, String name) {
         this.id = id;
         this.name = name;

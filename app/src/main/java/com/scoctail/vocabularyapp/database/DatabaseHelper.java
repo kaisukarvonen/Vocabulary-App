@@ -87,25 +87,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public void addWord(Word word, int la_id, int theme_id, int wordclass_id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
+    public Boolean addWord(Word word, int la_id, int theme_id, int wordclass_id) {
+        if (!rowExists(VocabularyContract.KEY_NAME, word.getName(),VocabularyContract.TABLE_WORD)) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
 
-        values.put(VocabularyContract.KEY_NAME, word.getName());
-        values.put(VocabularyContract.WordEntry.KEY_CONJUGATION, word.getConjugation());
-        values.put(VocabularyContract.WordEntry.KEY_EXAMPLES, word.getExamples());
-        values.put(VocabularyContract.WordEntry.KEY_TRANSLATION, word.getTranslation());
-        values.put(VocabularyContract.WordEntry.KEY_LANGUAGE, la_id);
+            values.put(VocabularyContract.KEY_NAME, word.getName());
+            values.put(VocabularyContract.WordEntry.KEY_CONJUGATION, word.getConjugation());
+            values.put(VocabularyContract.WordEntry.KEY_EXAMPLES, word.getExamples());
+            values.put(VocabularyContract.WordEntry.KEY_TRANSLATION, word.getTranslation());
+            values.put(VocabularyContract.WordEntry.KEY_LANGUAGE, la_id);
 
-        if (wordclass_id!= 0) {
-            values.put(VocabularyContract.WordEntry.KEY_WORDCLASS, wordclass_id);
+            if (wordclass_id != 0) {
+                values.put(VocabularyContract.WordEntry.KEY_WORDCLASS, wordclass_id);
+            }
+            if (theme_id != 0) {
+                values.put(VocabularyContract.WordEntry.KEY_THEME, theme_id);
+            }
+            db.insert(VocabularyContract.TABLE_WORD, null, values);
+            db.close();
+            return true;
         }
-        if (theme_id!= 0) {
-            values.put(VocabularyContract.WordEntry.KEY_THEME, theme_id);
-        }
-
-        db.insert(VocabularyContract.TABLE_WORD, null, values);
-        db.close();
+        return false;
     }
 
     public Boolean addTheme(String name) {
@@ -144,13 +147,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public Cursor getLanguages() {
-        Log.d("where?", "here");
+    public List<Language> getLanguages() {
+        List<Language> languages = new ArrayList<Language>();
         SQLiteDatabase db = this.getReadableDatabase();
         String [] columns = {VocabularyContract.KEY_ID, VocabularyContract.KEY_NAME};
         Cursor c = db.query(VocabularyContract.TABLE_LANGUAGE, columns, null, null, null, null, null);
+        if (c.moveToFirst()) {
+            do {
+                languages.add(new Language(c.getInt(c.getColumnIndex("id")), c.getString(c.getColumnIndex("name"))));
+            } while (c.moveToNext());
+        }
         db.close();
-        return c;
+        return languages;
     }
 
     public String getSelectedLanguage(Context ctx) {
@@ -169,7 +177,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<WordClass> getWordclasses() {
         List<WordClass> wordclasses = new ArrayList<WordClass>();
-        String selectwordclasses = "SELECT "+VocabularyContract.KEY_NAME+","+ VocabularyContract.KEY_ID+" FROM "+VocabularyContract.TABLE_WORDCLASS+";";
+        String selectwordclasses = "SELECT " + VocabularyContract.KEY_NAME + "," + VocabularyContract.KEY_ID + " FROM " + VocabularyContract.TABLE_WORDCLASS + ";";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectwordclasses, null);
         if (c.moveToFirst()) {

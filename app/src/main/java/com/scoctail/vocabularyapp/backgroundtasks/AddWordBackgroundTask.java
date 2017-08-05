@@ -12,7 +12,7 @@ import com.scoctail.vocabularyapp.database.DatabaseHelper;
  * Created by Kaisu on 6/4/17.
  */
 
-public class AddWordBackgroundTask extends AsyncTask<String, Void, String> {
+public class AddWordBackgroundTask extends AsyncTask<String, Void, Boolean> {
     Context ctx;
 
     public AddWordBackgroundTask(Context ctx) {
@@ -20,7 +20,7 @@ public class AddWordBackgroundTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected Boolean doInBackground(String... params) {
         String method = params[0];
         DatabaseHelper helper = new DatabaseHelper(ctx);
 
@@ -32,14 +32,20 @@ public class AddWordBackgroundTask extends AsyncTask<String, Void, String> {
             String wordClass = params[5];
             Log.d("wordclass", wordClass);
             Word word = new Word(name,translation,examples,conjugation);
-            helper.addWord(word, 1, 0, Integer.parseInt(wordClass)); //wordclass id?
-            return "New word added to vocabulary!";
-        }
 
-        return null;
+            if (helper.addWord(word, 1, 0, Integer.parseInt(wordClass))) {
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
-    protected void onPostExecute(String result) {
-        Toast.makeText(ctx, result, Toast.LENGTH_SHORT).show();
+    protected void onPostExecute(Boolean result) {
+        if(result) {
+            Toast.makeText(ctx, "Word added to vocabulary!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(ctx, "You have already added this word!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
