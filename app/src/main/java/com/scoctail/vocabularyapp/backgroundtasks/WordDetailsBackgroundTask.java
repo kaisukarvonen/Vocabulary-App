@@ -67,11 +67,11 @@ public class WordDetailsBackgroundTask extends AsyncTask<String, Void, Word> {
                 t_conjugation.setText(word.getConjugation());
             }
 
-            if (word.getWordclass().isEmpty()) {
+            if (word.getWordclass().getName().isEmpty()) {
                 t_wordclass.setVisibility(TextView.GONE);
                 (ac.findViewById(R.id.w_wordclass_title)).setVisibility(TextView.GONE);
             } else {
-                t_wordclass.setText(word.getWordclass());
+                t_wordclass.setText(word.getWordclass().getName());
             }
 
             t_name.setText(word.getName());

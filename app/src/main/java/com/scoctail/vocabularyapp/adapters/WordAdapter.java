@@ -19,10 +19,14 @@ import java.util.List;
 
 public class WordAdapter extends ArrayAdapter {
     List list = new ArrayList();
+    int resource;
+    Context ctx;
 
 
     public WordAdapter( Context context, int resource) {
         super(context, resource);
+        this.resource = resource;
+        this.ctx = context;
     }
 
     public void add(Word object) {
@@ -48,7 +52,7 @@ public class WordAdapter extends ArrayAdapter {
         WordHolder wh;
         if (row == null) {
             LayoutInflater lainf = (LayoutInflater)this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = lainf.inflate(R.layout.word_row, parent, false);
+            row = lainf.inflate(resource, parent, false);
             wh = new WordHolder();
             wh.tx_translation = (TextView)row.findViewById(R.id.t_translation);
             wh.tx_name = (TextView)row.findViewById(R.id.t_name);

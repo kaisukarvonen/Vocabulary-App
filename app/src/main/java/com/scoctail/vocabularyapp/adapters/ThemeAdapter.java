@@ -23,7 +23,8 @@ public class ThemeAdapter extends ArrayAdapter {
     int resource;
     Context ctx;
 
-    public ThemeAdapter(Context context, int resource) {
+    public ThemeAdapter(Context context, int resource)
+    {
         super(context, resource);
         this.resource = resource;
         this.ctx = context;

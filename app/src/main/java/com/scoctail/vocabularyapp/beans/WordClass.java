@@ -16,6 +16,10 @@ public class WordClass {
         this.name = name;
     }
 
+    public WordClass(int id) {
+        this.id = id;
+    }
+
     public WordClass(String name) {
         this.name = name;
     }

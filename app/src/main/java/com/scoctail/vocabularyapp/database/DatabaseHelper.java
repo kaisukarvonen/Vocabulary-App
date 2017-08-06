@@ -87,7 +87,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public Boolean addWord(Word word, int la_id, int theme_id, int wordclass_id) {
+    public Boolean addWord(Word word) {
         if (!rowExists(VocabularyContract.KEY_NAME, word.getName(),VocabularyContract.TABLE_WORD)) {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
@@ -96,13 +96,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(VocabularyContract.WordEntry.KEY_CONJUGATION, word.getConjugation());
             values.put(VocabularyContract.WordEntry.KEY_EXAMPLES, word.getExamples());
             values.put(VocabularyContract.WordEntry.KEY_TRANSLATION, word.getTranslation());
-            values.put(VocabularyContract.WordEntry.KEY_LANGUAGE, la_id);
+            values.put(VocabularyContract.WordEntry.KEY_LANGUAGE, word.getLanguage().getId());
 
-            if (wordclass_id != 0) {
-                values.put(VocabularyContract.WordEntry.KEY_WORDCLASS, wordclass_id);
+            if (word.getWordclass().getId() != 0) {
+                values.put(VocabularyContract.WordEntry.KEY_WORDCLASS, word.getWordclass().getId());
             }
-            if (theme_id != 0) {
-                values.put(VocabularyContract.WordEntry.KEY_THEME, theme_id);
+            if (word.getTheme().getId() != 0) {
+                values.put(VocabularyContract.WordEntry.KEY_THEME, word.getTheme().getId());
             }
             db.insert(VocabularyContract.TABLE_WORD, null, values);
             db.close();
@@ -205,7 +205,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getWordsByLanguage(int la_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String [] columns = {VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION};
-        Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.WordEntry.KEY_LANGUAGE+" = "+la_id, null, null, null, null);
+        Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.WordEntry.KEY_LANGUAGE+" = "+la_id, null, null, null, VocabularyContract.KEY_NAME+" ASC");
         return c;
     }
 
@@ -223,9 +223,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         word.setExamples(c.getString(c.getColumnIndex(VocabularyContract.WordEntry.KEY_EXAMPLES)));
         int wordclassId = c.getInt(c.getColumnIndex(VocabularyContract.WordEntry.KEY_WORDCLASS));
         if (wordclassId == 0) {
-            word.setWordclass("");
+            word.setWordclass(new WordClass(""));
         } else {
-            word.setWordclass(getWordClassName(wordclassId));
+            word.setWordclass(new WordClass(getWordClassName(wordclassId)));
         }
         db.close();
         return word;

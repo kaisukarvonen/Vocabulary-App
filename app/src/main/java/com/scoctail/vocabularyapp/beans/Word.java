@@ -6,15 +6,10 @@ package com.scoctail.vocabularyapp.beans;
 
 public class Word {
     private int id;
-    private String name,translation, examples,conjugation,wordclass;
-
-    public String getWordclass() {
-        return wordclass;
-    }
-
-    public void setWordclass(String wordclass) {
-        this.wordclass = wordclass;
-    }
+    private Theme theme;
+    private Language language;
+    private WordClass wordclass;
+    private String name,translation, examples,conjugation;
 
     public Word() {
     }
@@ -24,12 +19,14 @@ public class Word {
         this.translation = translation;
     }
 
-    public Word(String name, String translation, String examples, String conjugation, String wordclass) {
+    public Word(String name, String translation, String examples, String conjugation, WordClass wordclass, Theme theme, Language language) {
         this.name = name;
         this.translation = translation;
         this.examples = examples;
         this.conjugation = conjugation;
         this.wordclass = wordclass;
+        this.theme = theme;
+        this.language = language;
     }
 
     public Word(String name, String translation, String examples, String conjugation) {
@@ -37,6 +34,30 @@ public class Word {
         this.translation = translation;
         this.examples = examples;
         this.conjugation = conjugation;
+    }
+
+    public void setWordclass(WordClass wordclass) {
+        this.wordclass = wordclass;
+    }
+
+    public WordClass getWordclass() {
+        return this.wordclass;
+    }
+
+    public Theme getTheme() {
+        return theme;
+    }
+
+    public void setTheme(Theme theme) {
+        this.theme = theme;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 
     public int getId() {

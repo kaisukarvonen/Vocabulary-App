@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.scoctail.vocabularyapp.R;
+import com.scoctail.vocabularyapp.adapters.WordAdapter;
 import com.scoctail.vocabularyapp.backgroundtasks.AddWordBackgroundTask;
 import com.scoctail.vocabularyapp.beans.Theme;
 import com.scoctail.vocabularyapp.beans.WordClass;
@@ -73,10 +74,10 @@ public class AddWord extends AppCompatActivity  implements AdapterView.OnItemSel
         if(!validateInput()) {
             Toast.makeText(this, "Please fill out all mandatory fields!", Toast.LENGTH_SHORT).show();
         } else {
-            /*
+
             AddWordBackgroundTask bg = new AddWordBackgroundTask(this);
-            bg.execute("addWord", name, translation, conjugation, examples, Integer.toString(selectedWordClass.getId()));
-*/
+            bg.execute("addWord", name, translation, conjugation, examples, Integer.toString(selectedWordClass.getId()), Integer.toString(selectedTheme.getId()));
+
         }
 
 

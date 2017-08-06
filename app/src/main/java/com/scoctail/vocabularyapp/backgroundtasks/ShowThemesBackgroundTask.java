@@ -26,11 +26,9 @@ public class ShowThemesBackgroundTask extends AsyncTask<String, Theme, Boolean> 
 
     ThemeAdapter ta;
     Context ctx;
-    Activity ac;
 
     public ShowThemesBackgroundTask(Context ctx, ThemeAdapter adapter) {
         this.ctx = ctx;
-        this.ac = (Activity)ctx;
         this.ta = adapter;
     }
 

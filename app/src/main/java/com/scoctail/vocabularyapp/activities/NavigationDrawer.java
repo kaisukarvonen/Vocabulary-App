@@ -40,18 +40,16 @@ public class NavigationDrawer extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //DatabaseHelper.writeToInternalStorage(getApplicationContext(), "1", "language_id");
-
-        ShowWordsBackgroundTask bg = new ShowWordsBackgroundTask(this);
-        bg.execute("showWords");
+        adapter = new WordAdapter(this, R.layout.word_row);
         lv = (ListView) findViewById(R.id.words_listview);
         lv.setAdapter(adapter);
+        ShowWordsBackgroundTask bg = new ShowWordsBackgroundTask(this, adapter);
+        bg.execute("showWords");
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
                 Word word = (Word)adapter.getItemAtPosition(position);
-                //Log.d("word", word.getName());
                 Intent i = new Intent(view.getContext(), WordDetails.class);
                 i.putExtra("name", word.getName());
                 startActivity(i);
@@ -72,7 +70,6 @@ public class NavigationDrawer extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
         TextView selectedLanguage = (TextView) header.findViewById(R.id.selected_language_name);
         selectedLanguage.setText(db.getSelectedLanguage(getApplicationContext()));
-        //selectedLanguage.setText("plaa");
     }
 
     public void goToAddWordPage(View view) {

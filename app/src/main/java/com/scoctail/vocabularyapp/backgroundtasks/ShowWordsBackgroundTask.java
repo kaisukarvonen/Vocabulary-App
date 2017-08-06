@@ -17,25 +17,22 @@ import com.scoctail.vocabularyapp.adapters.WordAdapter;
  * Created by Kaisu on 30/3/17.
  */
 
-public class ShowWordsBackgroundTask extends AsyncTask<String, Word, String> {
+public class ShowWordsBackgroundTask extends AsyncTask<String, Word, Boolean> {
 
     WordAdapter wa;
     Context ctx;
-    Activity ac;
     ListView lv;
 
-    public ShowWordsBackgroundTask(Context ctx) {
+    public ShowWordsBackgroundTask(Context ctx, WordAdapter wa) {
         this.ctx = ctx;
-        this.ac = (Activity)ctx;
+        this.wa = wa;
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected Boolean doInBackground(String... params) {
         String method = params[0];
         if(method.equals("showWords")) {
             DatabaseHelper dbhelper = new DatabaseHelper(ctx);
-            lv = (ListView) ac.findViewById(R.id.words_listview);
-            wa = new WordAdapter(ctx, R.layout.word_row);
             Cursor c = dbhelper.getWordsByLanguage(1);
             String name, translation;
 
@@ -45,11 +42,11 @@ public class ShowWordsBackgroundTask extends AsyncTask<String, Word, String> {
                 Word word = new Word(name,translation);
                 publishProgress(word);
             }
-            return "showWords";
+            return true;
         }
 
 
-        return null;
+        return false;
     }
 
     @Override
@@ -59,11 +56,9 @@ public class ShowWordsBackgroundTask extends AsyncTask<String, Word, String> {
     }
 
     @Override
-    protected void onPostExecute(String result) {
-        if(result.equals("showWords")) {
-            lv.setAdapter(wa);
-        } else {
-            Toast.makeText(ctx, result, Toast.LENGTH_LONG);
+    protected void onPostExecute(Boolean result) {
+        if(!result) {
+            Toast.makeText(ctx, "Error displaying words", Toast.LENGTH_LONG).show();
         }
     }
 }
