@@ -13,6 +13,8 @@ import com.scoctail.vocabularyapp.database.DatabaseHelper;
 import com.scoctail.vocabularyapp.R;
 import com.scoctail.vocabularyapp.adapters.WordAdapter;
 
+import java.util.List;
+
 /**
  * Created by Kaisu on 30/3/17.
  */
@@ -31,27 +33,20 @@ public class ShowWordsBackgroundTask extends AsyncTask<String, Word, Boolean> {
     @Override
     protected Boolean doInBackground(String... params) {
         String method = params[0];
+        DatabaseHelper dbhelper = new DatabaseHelper(ctx);
+        List<Word> words = dbhelper.getWordsByLanguage(1);
         if(method.equals("showWords")) {
-            DatabaseHelper dbhelper = new DatabaseHelper(ctx);
-            Cursor c = dbhelper.getWordsByLanguage(1);
-            String name, translation;
-
-            while (c.moveToNext()) {
-                name = c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME));
-                translation = c.getString(c.getColumnIndex(VocabularyContract.WordEntry.KEY_TRANSLATION));
-                Word word = new Word(name,translation);
-                publishProgress(word);
+            for (Word w : words) {
+                publishProgress(w);
             }
             return true;
         }
-
 
         return false;
     }
 
     @Override
     protected void onProgressUpdate(Word... values) {
-
         wa.add(values[0]);
     }
 

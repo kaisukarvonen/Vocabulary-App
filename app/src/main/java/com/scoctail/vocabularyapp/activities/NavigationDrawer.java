@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,11 +30,16 @@ import com.scoctail.vocabularyapp.backgroundtasks.ShowWordsBackgroundTask;
 import com.scoctail.vocabularyapp.beans.Word;
 import com.scoctail.vocabularyapp.database.DatabaseHelper;
 
+import java.util.List;
+
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private int length;
+    List<Word> words;
     ListView lv;
     WordAdapter adapter;
+    private EditText searchText;
 
 
     @Override
@@ -40,11 +49,8 @@ public class NavigationDrawer extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        adapter = new WordAdapter(this, R.layout.word_row);
         lv = (ListView) findViewById(R.id.words_listview);
-        lv.setAdapter(adapter);
-        ShowWordsBackgroundTask bg = new ShowWordsBackgroundTask(this, adapter);
-        bg.execute("showWords");
+        initWordList();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -54,6 +60,31 @@ public class NavigationDrawer extends AppCompatActivity
                 i.putExtra("name", word.getName());
                 startActivity(i);
 
+            }
+        });
+
+        searchText = (EditText)findViewById(R.id.search_word_name);
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                length = s.toString().length();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().equals("")) {
+                  initWordList();
+                } else {
+                    searchWord(s.toString().toLowerCase());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() < length) {
+                    initWordList();
+                    searchWord(s.toString().toLowerCase());
+                }
             }
         });
 
@@ -70,6 +101,34 @@ public class NavigationDrawer extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
         TextView selectedLanguage = (TextView) header.findViewById(R.id.selected_language_name);
         selectedLanguage.setText(db.getSelectedLanguage(getApplicationContext()));
+    }
+
+    public void initWordList() {
+        DatabaseHelper dbhelper = new DatabaseHelper(this);
+        words = dbhelper.getWordsByLanguage(1);
+        adapter = new WordAdapter(this, R.layout.word_row);
+
+        for(Word w : words) {
+            adapter.add(w);
+        }
+        lv.setAdapter(adapter);
+    }
+
+    public void searchWord(String str) {
+        for (Word w : words) {
+            if (str.length()==1) {
+                char nameFirst = w.getName().toLowerCase().charAt(0);
+                if(nameFirst != str.charAt(0)) {
+                    adapter.remove(w);
+                }
+            } else {
+                if(!w.getName().toLowerCase().contains(str)) {
+                    adapter.remove(w);
+                }
+            }
+        }
+        //search now only by name, how to add translation to search?
+        adapter.notifyDataSetChanged();
     }
 
     public void goToAddWordPage(View view) {

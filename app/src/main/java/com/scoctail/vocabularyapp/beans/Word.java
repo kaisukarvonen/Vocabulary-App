@@ -14,7 +14,8 @@ public class Word {
     public Word() {
     }
 
-    public Word(String name, String translation) {
+    public Word(int id, String name, String translation) {
+        this.id = id;
         this.name = name;
         this.translation = translation;
     }

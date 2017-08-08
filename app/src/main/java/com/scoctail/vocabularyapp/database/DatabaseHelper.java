@@ -202,11 +202,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return themes;
     }
 
-    public Cursor getWordsByLanguage(int la_id) {
+    public List<Word> getWordsByLanguage(int la_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String [] columns = {VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION};
-        Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.WordEntry.KEY_LANGUAGE+" = "+la_id, null, null, null, VocabularyContract.KEY_NAME+" ASC");
-        return c;
+        String [] columns = {VocabularyContract.KEY_ID, VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION};
+        Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.WordEntry.KEY_LANGUAGE+" = "+la_id, null, null, null, VocabularyContract.KEY_NAME+" COLLATE NOCASE ASC");
+        List<Word> words = new ArrayList<>();
+        if (c.moveToFirst()) {
+            do {
+                words.add(new Word(c.getInt(c.getColumnIndex(VocabularyContract.KEY_ID)), c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME)), c.getString(c.getColumnIndex(VocabularyContract.WordEntry.KEY_TRANSLATION))));
+            } while (c.moveToNext());
+        }
+        db.close();
+        return words;
     }
 
     public Word getWord(String name) {

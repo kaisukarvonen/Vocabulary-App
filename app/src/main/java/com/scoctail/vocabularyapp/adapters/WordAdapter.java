@@ -34,6 +34,10 @@ public class WordAdapter extends ArrayAdapter {
         super.add(object);
     }
 
+    public void remove(Word object) {
+        list.remove(object);
+    }
+
     @Override
     public int getCount() {
 
