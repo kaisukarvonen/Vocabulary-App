@@ -18,9 +18,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
-            android:layout_marginLeft="13dp"
+            android:layout_marginLeft="21dp"
             app:hintEnabled="false"
             android:layout_below="@+id/words_listview"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
             >
             <EditText
                 android:id="@+id/search_word_name"
@@ -28,21 +30,36 @@
                 android:layout_width="270dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:drawableLeft="@drawable/ic_search_black_20dp"
+
                 />
         </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/language_choice_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/words_listview"
+            android:layout_marginTop="18dp"
+            android:layout_marginLeft="314dp"
+            android:text=""
+            android:clickable="true"
+            android:onClick="chooseLanguage"
+            />
 
         <ListView
             android:id="@+id/words_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="44dp"/>
+            android:layout_marginTop="44dp"
+            android:layout_marginLeft="22dp"/>
 
         <ImageButton
         android:id="@+id/addButton"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_marginLeft="280dp"
-        android:layout_marginTop="430dp"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginLeft="304dp"
+        android:layout_marginTop="450dp"
         android:background="@drawable/oval"
         android:clickable="true"
             android:onClick="goToAddWordPage"

@@ -1,8 +1,8 @@
 package com.scoctail.vocabularyapp.activities;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
@@ -18,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -26,9 +25,10 @@ import android.widget.TextView;
 
 import com.scoctail.vocabularyapp.R;
 import com.scoctail.vocabularyapp.adapters.WordAdapter;
-import com.scoctail.vocabularyapp.backgroundtasks.ShowWordsBackgroundTask;
+import com.scoctail.vocabularyapp.beans.Language;
 import com.scoctail.vocabularyapp.beans.Word;
 import com.scoctail.vocabularyapp.database.DatabaseHelper;
+import com.scoctail.vocabularyapp.dialogs.LanguageChooser;
 
 import java.util.List;
 
@@ -100,12 +100,20 @@ public class NavigationDrawer extends AppCompatActivity
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         View header = navigationView.getHeaderView(0);
         TextView selectedLanguage = (TextView) header.findViewById(R.id.selected_language_name);
-        selectedLanguage.setText(db.getSelectedLanguage(getApplicationContext()));
+        Language language = db.getSelectedLanguage(this);
+
+        selectedLanguage.setText(language.getName());
+
+        TextView languageChoiceBtn = (TextView) findViewById(R.id.language_choice_btn);
+        languageChoiceBtn.setPaintFlags(languageChoiceBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        languageChoiceBtn.setText(language.getName().substring(0,3));
     }
+
+
 
     public void initWordList() {
         DatabaseHelper dbhelper = new DatabaseHelper(this);
-        words = dbhelper.getWordsByLanguage(1);
+        words = dbhelper.getWordsByLanguage(dbhelper.getSelectedLanguage(this).getId());
         adapter = new WordAdapter(this, R.layout.word_row);
 
         for(Word w : words) {
@@ -137,6 +145,11 @@ public class NavigationDrawer extends AppCompatActivity
         this.startActivity(i);
     }
 
+    public void chooseLanguage(View v) {
+        LanguageChooser chooser = new LanguageChooser();
+
+        chooser.show(getSupportFragmentManager(), "chooser");
+    }
 
     @Override
     public void onBackPressed() {
@@ -149,6 +162,8 @@ public class NavigationDrawer extends AppCompatActivity
             findViewById(R.id.addButton).setVisibility(View.VISIBLE);
         }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

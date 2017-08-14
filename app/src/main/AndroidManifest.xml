@@ -21,7 +21,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.NavigationDrawer"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
