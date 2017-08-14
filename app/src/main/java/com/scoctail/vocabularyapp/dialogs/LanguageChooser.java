@@ -33,7 +33,7 @@ public class LanguageChooser extends DialogFragment {
         int selectedLanguage = getSelectedLanguagePosition(lNames,db.getSelectedLanguage(getContext()).getName());
         CharSequence[] lItems = lNames.toArray(new CharSequence[lNames.size()]);
 
-        builder.setTitle("Select language").setSingleChoiceItems(lItems, selectedLanguage, new DialogInterface.OnClickListener() {
+        builder.setTitle("Select language ...").setSingleChoiceItems(lItems, selectedLanguage, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (!lNames.get(which).equals(db.getSelectedLanguage(getContext()))) {

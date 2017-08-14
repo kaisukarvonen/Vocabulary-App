@@ -1,5 +1,6 @@
 package com.scoctail.vocabularyapp.activities;
 
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,14 +9,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.scoctail.vocabularyapp.R;
 import com.scoctail.vocabularyapp.adapters.WordAdapter;
 import com.scoctail.vocabularyapp.backgroundtasks.AddWordBackgroundTask;
+import com.scoctail.vocabularyapp.beans.Language;
 import com.scoctail.vocabularyapp.beans.Theme;
 import com.scoctail.vocabularyapp.beans.WordClass;
 import com.scoctail.vocabularyapp.database.DatabaseHelper;
+import com.scoctail.vocabularyapp.dialogs.LanguageChooser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +46,15 @@ public class AddWord extends AppCompatActivity  implements AdapterView.OnItemSel
         themesSpinner = (Spinner) findViewById((R.id.theme_spinner));
         themesSpinner.setOnItemSelectedListener(this);
         showSpinnerOptions();
+        showCurrentLanguage();
+    }
+
+    public void showCurrentLanguage() {
+        Language language = new DatabaseHelper(this).getSelectedLanguage(this);
+
+        TextView languageChoiceBtn = (TextView) findViewById(R.id.language_choice_btn);
+        languageChoiceBtn.setPaintFlags(languageChoiceBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        languageChoiceBtn.setText(language.getName().substring(0,3));
     }
 
     public void showSpinnerOptions() {
@@ -98,6 +111,12 @@ public class AddWord extends AppCompatActivity  implements AdapterView.OnItemSel
                 break;
             }
         }
+    }
+
+    public void chooseLanguage(View v) {
+        LanguageChooser chooser = new LanguageChooser();
+        chooser.show(getSupportFragmentManager(), "chooser");
+
     }
 
 
