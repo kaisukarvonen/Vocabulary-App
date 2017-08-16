@@ -37,6 +37,14 @@ public class Word {
         this.conjugation = conjugation;
     }
 
+    public Word(int id, String name, String translation, WordClass wordclass, Theme theme) {
+        this.id = id;
+        this.name = name;
+        this.translation = translation;
+        this.wordclass = wordclass;
+        this.theme = theme;
+    }
+
     public void setWordclass(WordClass wordclass) {
         this.wordclass = wordclass;
     }

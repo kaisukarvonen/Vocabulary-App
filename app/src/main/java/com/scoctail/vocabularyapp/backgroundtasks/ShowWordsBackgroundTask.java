@@ -34,7 +34,7 @@ public class ShowWordsBackgroundTask extends AsyncTask<String, Word, Boolean> {
     protected Boolean doInBackground(String... params) {
         String method = params[0];
         DatabaseHelper dbhelper = new DatabaseHelper(ctx);
-        List<Word> words = dbhelper.getWordsByLanguage(1);
+        List<Word> words = dbhelper.getWordsByLanguage(dbhelper.getSelectedLanguage(ctx).getId(), Integer.parseInt(dbhelper.readFromInternalStorage(ctx, "sort_by_selection")));
         if(method.equals("showWords")) {
             for (Word w : words) {
                 publishProgress(w);

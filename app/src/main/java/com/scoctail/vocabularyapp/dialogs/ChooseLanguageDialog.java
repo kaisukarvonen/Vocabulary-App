@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.DialogFragment;
 
 import com.scoctail.vocabularyapp.beans.Language;
@@ -17,7 +16,7 @@ import java.util.List;
  * Created by Kaisu on 14.8.2017.
  */
 
-public class LanguageChooser extends DialogFragment {
+public class ChooseLanguageDialog extends DialogFragment {
     private List<String> lNames;
     private DatabaseHelper db;
     private List<Language> languages;

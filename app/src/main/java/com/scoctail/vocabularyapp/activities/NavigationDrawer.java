@@ -26,20 +26,24 @@ import android.widget.TextView;
 import com.scoctail.vocabularyapp.R;
 import com.scoctail.vocabularyapp.adapters.WordAdapter;
 import com.scoctail.vocabularyapp.beans.Language;
+import com.scoctail.vocabularyapp.beans.Theme;
 import com.scoctail.vocabularyapp.beans.Word;
 import com.scoctail.vocabularyapp.database.DatabaseHelper;
-import com.scoctail.vocabularyapp.dialogs.LanguageChooser;
+import com.scoctail.vocabularyapp.dialogs.ChooseLanguageDialog;
+import com.scoctail.vocabularyapp.dialogs.OnDialogConfirmClickListener;
+import com.scoctail.vocabularyapp.dialogs.SortByDialog;
 
 import java.util.List;
 
 public class NavigationDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnDialogConfirmClickListener {
 
     private int length;
     List<Word> words;
     ListView lv;
     WordAdapter adapter;
     private EditText searchText;
+    private DatabaseHelper db;
 
 
     @Override
@@ -48,9 +52,16 @@ public class NavigationDrawer extends AppCompatActivity
         setContentView(R.layout.activity_navigation_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        db = new DatabaseHelper(getApplicationContext());
+
+        //db.writeToInternalStorage(this, "2", "sort_by_selection");
 
         lv = (ListView) findViewById(R.id.words_listview);
-        initWordList();
+        initWordList(Integer.parseInt(db.readFromInternalStorage(getApplication(), "sort_by_selection")));
+        /*
+        for (Word w : words) {
+            Log.d("words", w.getName()+ ", wc: "+w.getWordclass().getName());
+        }*/
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -73,7 +84,7 @@ public class NavigationDrawer extends AppCompatActivity
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().equals("")) {
-                  initWordList();
+                    initWordList(Integer.parseInt(db.readFromInternalStorage(getApplication(), "sort_by_selection")));
                 } else {
                     searchWord(s.toString().toLowerCase());
                 }
@@ -82,7 +93,7 @@ public class NavigationDrawer extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() < length) {
-                    initWordList();
+                    initWordList(Integer.parseInt(db.readFromInternalStorage(getApplication(), "sort_by_selection")));
                     searchWord(s.toString().toLowerCase());
                 }
             }
@@ -96,8 +107,6 @@ public class NavigationDrawer extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         View header = navigationView.getHeaderView(0);
         TextView selectedLanguage = (TextView) header.findViewById(R.id.selected_language_name);
         Language language = db.getSelectedLanguage(this);
@@ -107,13 +116,14 @@ public class NavigationDrawer extends AppCompatActivity
         TextView languageChoiceBtn = (TextView) findViewById(R.id.language_choice_btn);
         languageChoiceBtn.setPaintFlags(languageChoiceBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         languageChoiceBtn.setText(language.getName().substring(0,3));
+
+
     }
 
 
 
-    public void initWordList() {
-        DatabaseHelper dbhelper = new DatabaseHelper(this);
-        words = dbhelper.getWordsByLanguage(dbhelper.getSelectedLanguage(this).getId());
+    public void initWordList(int rule) {
+        words = db.getWordsByLanguage(db.getSelectedLanguage(this).getId(), rule);
         adapter = new WordAdapter(this, R.layout.word_row);
 
         for(Word w : words) {
@@ -146,10 +156,38 @@ public class NavigationDrawer extends AppCompatActivity
     }
 
     public void chooseLanguage(View v) {
-        LanguageChooser chooser = new LanguageChooser();
+        ChooseLanguageDialog chooser = new ChooseLanguageDialog();
 
         chooser.show(getSupportFragmentManager(), "chooser");
     }
+
+    public void sortWords(View v) {
+        SortByDialog sorter = new SortByDialog();
+        sorter.show(getSupportFragmentManager(), "sorter");
+    }
+
+    @Override
+    public void onDialogConfirmClick(CharSequence[] options, int which) {
+        String currentSelection = db.readFromInternalStorage(this, "sort_by_selection");
+        Log.d("current sortby", currentSelection);
+        Log.d("new", Integer.toString(which));
+
+        if (which != Integer.parseInt(currentSelection)) {
+            db.writeToInternalStorage(this, Integer.toString(which), "sort_by_selection");
+            if (which == 0) { //alphabetical
+                lv.setAdapter(null);
+                initWordList(0);
+            } else if (which == 1) { //Themes
+                lv.setAdapter(null);
+                initWordList(1);
+            } else { //Word classes
+                lv.setAdapter(null);
+                initWordList(2);
+            }
+
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -223,4 +261,6 @@ public class NavigationDrawer extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

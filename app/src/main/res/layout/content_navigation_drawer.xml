@@ -47,11 +47,22 @@
             android:onClick="chooseLanguage"
             />
 
+        <ImageButton
+            android:id="@+id/sort_by_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="314dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/oval"
+            android:clickable="true"
+            android:onClick="sortWords"
+            android:src="@drawable/ic_sort_black_20dp" />
+
         <ListView
             android:id="@+id/words_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="62dp"
             android:layout_marginLeft="22dp"/>
 
         <ImageButton

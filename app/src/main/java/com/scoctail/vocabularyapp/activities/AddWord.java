@@ -13,13 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.scoctail.vocabularyapp.R;
-import com.scoctail.vocabularyapp.adapters.WordAdapter;
 import com.scoctail.vocabularyapp.backgroundtasks.AddWordBackgroundTask;
 import com.scoctail.vocabularyapp.beans.Language;
 import com.scoctail.vocabularyapp.beans.Theme;
 import com.scoctail.vocabularyapp.beans.WordClass;
 import com.scoctail.vocabularyapp.database.DatabaseHelper;
-import com.scoctail.vocabularyapp.dialogs.LanguageChooser;
+import com.scoctail.vocabularyapp.dialogs.ChooseLanguageDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,7 +113,7 @@ public class AddWord extends AppCompatActivity  implements AdapterView.OnItemSel
     }
 
     public void chooseLanguage(View v) {
-        LanguageChooser chooser = new LanguageChooser();
+        ChooseLanguageDialog chooser = new ChooseLanguageDialog();
         chooser.show(getSupportFragmentManager(), "chooser");
 
     }

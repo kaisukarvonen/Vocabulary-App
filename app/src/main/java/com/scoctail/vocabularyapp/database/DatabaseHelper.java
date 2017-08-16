@@ -56,6 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         writeToInternalStorage(ctx, Integer.toString(1), "language_id");
+        writeToInternalStorage(ctx, "0", "sort_by_selection");
     }
 
     public static void writeToInternalStorage(Context ctx, String message, String file) {
@@ -202,14 +203,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return themes;
     }
 
-    public List<Word> getWordsByLanguage(int la_id) {
+    public List<Word> getWordsByLanguage(int la_id, int sortByRule) {
+        String rule;
+        if (sortByRule == 0) {
+            rule = VocabularyContract.KEY_NAME;
+        } else if (sortByRule == 1) {
+            rule = VocabularyContract.WordEntry.KEY_THEME;
+        } else {
+            rule = VocabularyContract.WordEntry.KEY_WORDCLASS;
+        }
         SQLiteDatabase db = this.getReadableDatabase();
-        String [] columns = {VocabularyContract.KEY_ID, VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION};
-        Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.WordEntry.KEY_LANGUAGE+" = "+la_id, null, null, null, VocabularyContract.KEY_NAME+" COLLATE NOCASE ASC");
+        String [] columns = {VocabularyContract.KEY_ID, VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION, VocabularyContract.WordEntry.KEY_THEME, VocabularyContract.WordEntry.KEY_WORDCLASS};
+        Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.WordEntry.KEY_LANGUAGE+" = "+la_id, null, null, null, rule + " COLLATE NOCASE ASC");
         List<Word> words = new ArrayList<>();
         if (c.moveToFirst()) {
             do {
-                words.add(new Word(c.getInt(c.getColumnIndex(VocabularyContract.KEY_ID)), c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME)), c.getString(c.getColumnIndex(VocabularyContract.WordEntry.KEY_TRANSLATION))));
+                words.add(new Word(c.getInt(c.getColumnIndex(VocabularyContract.KEY_ID)), c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME)), c.getString(c.getColumnIndex(VocabularyContract.WordEntry.KEY_TRANSLATION)),
+                        new WordClass(getWordClassName(c.getInt(c.getColumnIndex(VocabularyContract.WordEntry.KEY_WORDCLASS)))), new Theme(getThemeName(c.getInt(c.getColumnIndex(VocabularyContract.WordEntry.KEY_THEME))))));
             } while (c.moveToNext());
         }
         db.close();
@@ -219,7 +229,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Word getWord(String name) {
         name = "'"+name+"'";
         SQLiteDatabase db = this.getReadableDatabase();
-        String [] columns = {VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION, VocabularyContract.WordEntry.KEY_CONJUGATION, VocabularyContract.WordEntry.KEY_EXAMPLES, VocabularyContract.WordEntry.KEY_WORDCLASS};
+        String [] columns = {VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION, VocabularyContract.WordEntry.KEY_CONJUGATION, VocabularyContract.WordEntry.KEY_EXAMPLES, VocabularyContract.WordEntry.KEY_WORDCLASS, VocabularyContract.WordEntry.KEY_THEME};
         Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.KEY_NAME+" = "+name, null, null, null, null);
 
         Word word = new Word();
@@ -229,11 +239,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         word.setConjugation(c.getString(c.getColumnIndex(VocabularyContract.WordEntry.KEY_CONJUGATION)));
         word.setExamples(c.getString(c.getColumnIndex(VocabularyContract.WordEntry.KEY_EXAMPLES)));
         int wordclassId = c.getInt(c.getColumnIndex(VocabularyContract.WordEntry.KEY_WORDCLASS));
-        if (wordclassId == 0) {
-            word.setWordclass(new WordClass(""));
-        } else {
-            word.setWordclass(new WordClass(getWordClassName(wordclassId)));
-        }
+        int themeId = c.getInt(c.getColumnIndex(VocabularyContract.WordEntry.KEY_THEME));
+        word.setWordclass(new WordClass(getWordClassName(wordclassId)));
+        word.setTheme(new Theme(getThemeName(themeId)));
         db.close();
         return word;
     }
@@ -242,8 +250,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String [] columns = {VocabularyContract.KEY_NAME};
         Cursor c = db.query(VocabularyContract.TABLE_WORDCLASS, columns, VocabularyContract.KEY_ID+" = "+id, null, null, null, null);
-        c.moveToFirst();
-        return c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME));
+        String name = "";
+        if (c.moveToFirst()) {
+            name = c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME));
+        }
+        return name;
+    }
+
+    public String getThemeName(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String [] columns = {VocabularyContract.KEY_NAME};
+        Cursor c = db.query(VocabularyContract.TABLE_THEME, columns, VocabularyContract.KEY_ID+" = "+id, null, null, null, null);
+        String name = "";
+        if (c.moveToFirst()) {
+            name = c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME));
+        }
+        return name;
     }
 
     public Boolean rowExists(String fieldName, String value, String table) {
