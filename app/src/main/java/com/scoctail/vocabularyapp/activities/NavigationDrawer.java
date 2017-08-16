@@ -44,6 +44,7 @@ public class NavigationDrawer extends AppCompatActivity
     WordAdapter adapter;
     private EditText searchText;
     private DatabaseHelper db;
+    View header;
 
 
     @Override
@@ -54,14 +55,10 @@ public class NavigationDrawer extends AppCompatActivity
         setSupportActionBar(toolbar);
         db = new DatabaseHelper(getApplicationContext());
 
-        //db.writeToInternalStorage(this, "2", "sort_by_selection");
 
         lv = (ListView) findViewById(R.id.words_listview);
         initWordList(Integer.parseInt(db.readFromInternalStorage(getApplication(), "sort_by_selection")));
-        /*
-        for (Word w : words) {
-            Log.d("words", w.getName()+ ", wc: "+w.getWordclass().getName());
-        }*/
+
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -107,17 +104,20 @@ public class NavigationDrawer extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        View header = navigationView.getHeaderView(0);
-        TextView selectedLanguage = (TextView) header.findViewById(R.id.selected_language_name);
-        Language language = db.getSelectedLanguage(this);
+        header = navigationView.getHeaderView(0);
+        setTextViewContent();
 
-        selectedLanguage.setText(language.getName());
+
+
+    }
+
+    public void setTextViewContent() {
+        TextView selectedLanguage = (TextView) header.findViewById(R.id.selected_language_name);
+        selectedLanguage.setText(db.getSelectedLanguage(this).getName());
 
         TextView languageChoiceBtn = (TextView) findViewById(R.id.language_choice_btn);
         languageChoiceBtn.setPaintFlags(languageChoiceBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        languageChoiceBtn.setText(language.getName().substring(0,3));
-
-
+        languageChoiceBtn.setText(db.getSelectedLanguage(this).getName().substring(0,3));
     }
 
 
@@ -167,7 +167,7 @@ public class NavigationDrawer extends AppCompatActivity
     }
 
     @Override
-    public void onDialogConfirmClick(CharSequence[] options, int which) {
+    public void onSortByDialogConfirmClick(CharSequence[] options, int which) {
         String currentSelection = db.readFromInternalStorage(this, "sort_by_selection");
         Log.d("current sortby", currentSelection);
         Log.d("new", Integer.toString(which));
@@ -186,6 +186,13 @@ public class NavigationDrawer extends AppCompatActivity
             }
 
         }
+    }
+
+    @Override
+    public void onChooseLanguageDialogConfirmClick() {
+        lv.setAdapter(null);
+        initWordList(Integer.parseInt(db.readFromInternalStorage(getApplication(), "sort_by_selection")));
+        setTextViewContent();
     }
 
 

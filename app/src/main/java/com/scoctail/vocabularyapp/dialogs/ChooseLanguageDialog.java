@@ -1,5 +1,6 @@
 package com.scoctail.vocabularyapp.dialogs;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -20,6 +21,7 @@ public class ChooseLanguageDialog extends DialogFragment {
     private List<String> lNames;
     private DatabaseHelper db;
     private List<Language> languages;
+    OnDialogConfirmClickListener listener;
 
     public Dialog onCreateDialog(Bundle savedInstance) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -30,7 +32,7 @@ public class ChooseLanguageDialog extends DialogFragment {
             lNames.add(l.getName());
         }
         int selectedLanguage = getSelectedLanguagePosition(lNames,db.getSelectedLanguage(getContext()).getName());
-        CharSequence[] lItems = lNames.toArray(new CharSequence[lNames.size()]);
+        final CharSequence[] lItems = lNames.toArray(new CharSequence[lNames.size()]);
 
         builder.setTitle("Select language ...").setSingleChoiceItems(lItems, selectedLanguage, new DialogInterface.OnClickListener() {
             @Override
@@ -44,8 +46,9 @@ public class ChooseLanguageDialog extends DialogFragment {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                listener.onChooseLanguageDialogConfirmClick();
                 dialog.dismiss();
-                getActivity().recreate();
+                //getActivity().recreate();
             }
 
         });
@@ -72,5 +75,15 @@ public class ChooseLanguageDialog extends DialogFragment {
             }
         }
         return id;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            listener = (OnDialogConfirmClickListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() +" does not implement OnDialogConfirmClickListener");
+        }
     }
 }

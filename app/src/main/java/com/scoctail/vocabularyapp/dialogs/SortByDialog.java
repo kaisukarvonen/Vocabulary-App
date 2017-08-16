@@ -35,9 +35,8 @@ public class SortByDialog extends DialogFragment {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                listener.onDialogConfirmClick(sortOptions, selection);
+                listener.onSortByDialogConfirmClick(sortOptions, selection);
                 dialog.dismiss();
-                //getActivity().recreate();
             }
 
         });

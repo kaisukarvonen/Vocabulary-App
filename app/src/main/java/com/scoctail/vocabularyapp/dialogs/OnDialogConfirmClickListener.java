@@ -6,5 +6,6 @@ package com.scoctail.vocabularyapp.dialogs;
 
 public interface OnDialogConfirmClickListener {
 
-    void onDialogConfirmClick(CharSequence[] array, int which);
+    void onSortByDialogConfirmClick(CharSequence[] array, int which);
+    void onChooseLanguageDialogConfirmClick();
 }
