@@ -40,17 +40,10 @@ public class ChooseLanguageDialog extends DialogFragment {
                 if (!lNames.get(which).equals(db.getSelectedLanguage(getContext()))) {
                     db.writeToInternalStorage(getContext(), Integer.toString(getSelectedLanguageId(lNames.get(which))), "language_id");
                 }
-
-            }
-        }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
                 listener.onChooseLanguageDialogConfirmClick();
                 dialog.dismiss();
-                //getActivity().recreate();
-            }
 
+            }
         });
 
         return builder.create();

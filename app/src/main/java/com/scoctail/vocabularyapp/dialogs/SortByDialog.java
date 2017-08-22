@@ -17,7 +17,6 @@ import com.scoctail.vocabularyapp.database.DatabaseHelper;
 public class SortByDialog extends DialogFragment {
     private CharSequence[] sortOptions = {"Alphabetical order", "Themes", "Wordclasses"};
     OnDialogConfirmClickListener listener;
-    private int selection;
 
 
     public Dialog onCreateDialog(Bundle savedInstance) {
@@ -28,17 +27,10 @@ public class SortByDialog extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.d("pressed sort by method", (String) sortOptions[which]);
-                selection = which;
-
-            }
-        }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                listener.onSortByDialogConfirmClick(sortOptions, selection);
+                listener.onSortByDialogConfirmClick(sortOptions, which);
                 dialog.dismiss();
-            }
 
+            }
         });
 
         return builder.create();

@@ -19,11 +19,12 @@ import com.scoctail.vocabularyapp.beans.Theme;
 import com.scoctail.vocabularyapp.beans.WordClass;
 import com.scoctail.vocabularyapp.database.DatabaseHelper;
 import com.scoctail.vocabularyapp.dialogs.ChooseLanguageDialog;
+import com.scoctail.vocabularyapp.dialogs.OnDialogConfirmClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddWord extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
+public class AddWord extends AppCompatActivity  implements AdapterView.OnItemSelectedListener, OnDialogConfirmClickListener {
     private EditText et_word, et_translation, et_conjugation, et_examples;
     private String name,translation,conjugation,examples,wordclassesSpinnerValue, themesSpinnerValue;
     private Spinner wordclassesSpinner, themesSpinner;
@@ -119,6 +120,8 @@ public class AddWord extends AppCompatActivity  implements AdapterView.OnItemSel
     }
 
 
+
+
     public void initialize() {
         name = et_word.getText().toString().trim();
         translation = et_translation.getText().toString().trim();
@@ -146,6 +149,17 @@ public class AddWord extends AppCompatActivity  implements AdapterView.OnItemSel
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void onSortByDialogConfirmClick(CharSequence[] array, int which) {
+
+    }
+
+    @Override
+    public void onChooseLanguageDialogConfirmClick() {
+        showCurrentLanguage();
 
     }
 }
