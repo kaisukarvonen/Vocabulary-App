@@ -4,9 +4,8 @@
 
     <TextView
         android:layout_width="170dp"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:text="Word"
-        android:clickable="true"
         android:id="@+id/t_name"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -14,7 +13,7 @@
 
     <TextView
         android:layout_width="180dp"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:text="Translation"
         android:id="@+id/t_translation"
         android:layout_alignParentTop="true"
