@@ -45,6 +45,7 @@ public class NavigationDrawer extends AppCompatActivity
     private EditText searchText;
     private DatabaseHelper db;
     View header;
+    private int counter;
 
 
     @Override
@@ -54,7 +55,7 @@ public class NavigationDrawer extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         db = new DatabaseHelper(getApplicationContext());
-
+        counter = 0;
 
         lv = (ListView) findViewById(R.id.words_listview);
         initWordList(Integer.parseInt(db.readFromInternalStorage(getApplication(), "sort_by_selection")));
@@ -202,9 +203,11 @@ public class NavigationDrawer extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            counter--;
+            if (counter == 0) {
+                setElementsVisibility(View.VISIBLE);
+            }
             super.onBackPressed();
-            findViewById(R.id.words_listview).setVisibility(View.VISIBLE);
-            findViewById(R.id.addButton).setVisibility(View.VISIBLE);
         }
     }
 
@@ -232,6 +235,15 @@ public class NavigationDrawer extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    public void setElementsVisibility(int visibility) {
+        findViewById(R.id.enter_search_word_name).setVisibility(visibility);
+        findViewById(R.id.language_choice_btn).setVisibility(visibility);
+        findViewById(R.id.sort_by_btn).setVisibility(visibility);
+        searchText.setVisibility(visibility);
+        lv.setVisibility(visibility);
+        findViewById(R.id.addButton).setVisibility(visibility);
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -239,9 +251,7 @@ public class NavigationDrawer extends AppCompatActivity
         int id = item.getItemId();
         FrameLayout framelayout = (FrameLayout) findViewById(R.id.content_frame);
         FragmentManager fm = getSupportFragmentManager();
-        //framelayout.removeAllViewsInLayout();
-        findViewById(R.id.words_listview).setVisibility(View.INVISIBLE);
-        findViewById(R.id.addButton).setVisibility(View.INVISIBLE);
+        setElementsVisibility(View.INVISIBLE);
 
         if (id == R.id.nav_languages) {
             FragmentTransaction ft = fm.beginTransaction();
@@ -263,6 +273,8 @@ public class NavigationDrawer extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
+
+        counter++;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
