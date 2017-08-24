@@ -206,15 +206,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Word> getWordsByLanguage(int la_id, int sortByRule) {
         String rule;
         if (sortByRule == 0) {
-            rule = VocabularyContract.KEY_NAME;
+            rule = VocabularyContract.KEY_NAME + " COLLATE NOCASE ASC";
         } else if (sortByRule == 1) {
-            rule = VocabularyContract.WordEntry.KEY_THEME;
+            rule = VocabularyContract.WordEntry.KEY_THEME + " DESC, "+VocabularyContract.KEY_NAME+" COLLATE NOCASE ASC";
         } else {
-            rule = VocabularyContract.WordEntry.KEY_WORDCLASS;
+            rule = VocabularyContract.WordEntry.KEY_WORDCLASS + " DESC, "+VocabularyContract.KEY_NAME+" COLLATE NOCASE ASC";
         }
         SQLiteDatabase db = this.getReadableDatabase();
         String [] columns = {VocabularyContract.KEY_ID, VocabularyContract.KEY_NAME, VocabularyContract.WordEntry.KEY_TRANSLATION, VocabularyContract.WordEntry.KEY_THEME, VocabularyContract.WordEntry.KEY_WORDCLASS};
-        Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.WordEntry.KEY_LANGUAGE+" = "+la_id, null, null, null, rule + " COLLATE NOCASE ASC");
+        Cursor c = db.query(VocabularyContract.TABLE_WORD, columns, VocabularyContract.WordEntry.KEY_LANGUAGE+" = "+la_id, null, null, null, rule);
         List<Word> words = new ArrayList<>();
         if (c.moveToFirst()) {
             do {

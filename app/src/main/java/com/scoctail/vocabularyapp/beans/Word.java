@@ -30,11 +30,8 @@ public class Word {
         this.language = language;
     }
 
-    public Word(String name, String translation, String examples, String conjugation) {
+    public Word(String name) {
         this.name = name;
-        this.translation = translation;
-        this.examples = examples;
-        this.conjugation = conjugation;
     }
 
     public Word(int id, String name, String translation, WordClass wordclass, Theme theme) {

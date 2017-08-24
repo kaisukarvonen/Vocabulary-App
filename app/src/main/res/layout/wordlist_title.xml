@@ -3,4 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/section_header"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:padding="4dp"
+        android:text="Title"
+        android:textSize="16dp"
+        android:clickable="false"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        android:textColor="#3f51b5"
+        android:background="@drawable/bottom_border"/>
 </LinearLayout>

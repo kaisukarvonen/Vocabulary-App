@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_languages"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_language_black_24dp"
             android:title="Languages" />
         <item
             android:id="@+id/nav_themes"
@@ -14,10 +14,6 @@
             android:id="@+id/nav_wordclasses"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Word classes" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
     </group>
 
     <item android:title="Communicate">

@@ -18,12 +18,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.scoctail.vocabularyapp.R;
+import com.scoctail.vocabularyapp.adapters.SectionAdapter;
 import com.scoctail.vocabularyapp.adapters.WordAdapter;
 import com.scoctail.vocabularyapp.beans.Language;
 import com.scoctail.vocabularyapp.beans.Theme;
@@ -41,7 +43,8 @@ public class NavigationDrawer extends AppCompatActivity
     private int length;
     List<Word> words;
     ListView lv;
-    WordAdapter adapter;
+    WordAdapter wadapter;
+    SectionAdapter sadapter;
     private EditText searchText;
     private DatabaseHelper db;
     View header;
@@ -65,9 +68,11 @@ public class NavigationDrawer extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
                 Word word = (Word)adapter.getItemAtPosition(position);
-                Intent i = new Intent(view.getContext(), WordDetails.class);
-                i.putExtra("name", word.getName());
-                startActivity(i);
+                if (word.getTranslation() != null) {
+                    Intent i = new Intent(view.getContext(), WordDetails.class);
+                    i.putExtra("name", word.getName());
+                    startActivity(i);
+                }
 
             }
         });
@@ -125,12 +130,39 @@ public class NavigationDrawer extends AppCompatActivity
 
     public void initWordList(int rule) {
         words = db.getWordsByLanguage(db.getSelectedLanguage(this).getId(), rule);
-        adapter = new WordAdapter(this, R.layout.word_row);
 
-        for(Word w : words) {
-            adapter.add(w);
+        if(rule == 0) {
+            wadapter = new WordAdapter(this, R.layout.word_row);
+            for(Word w : words) {
+                wadapter.add(w);
+            }
+            lv.setAdapter(wadapter);
+        } else if (rule==1){
+            sadapter = new SectionAdapter(this, R.layout.word_row);
+            sadapter.addSectionHeader(new Word(words.get(0).getTheme().getName()));
+            for(int i=0; i<words.size()-1; i++) {
+                sadapter.add(words.get(i));
+                if (!words.get(i+1).getTheme().getName().equals(words.get(i).getTheme().getName())) {
+                    sadapter.addSectionHeader(new Word(words.get(i+1).getTheme().getName()));
+                }
+            }
+            lv.setAdapter(sadapter);
+        } else {
+            sadapter = new SectionAdapter(this, R.layout.word_row);
+            sadapter.addSectionHeader(new Word(words.get(0).getWordclass().getName()));
+            for(int i=0; i<words.size()-1; i++) {
+                sadapter.add(words.get(i));
+                if (!words.get(i+1).getWordclass().getName().equals(words.get(i).getWordclass().getName())) {
+                    sadapter.addSectionHeader(new Word(words.get(i+1).getWordclass().getName()));
+                }
+            }
+            lv.setAdapter(sadapter);
         }
-        lv.setAdapter(adapter);
+
+
+
+        //categorized by word class or theme
+
     }
 
     public void searchWord(String str) {
@@ -138,16 +170,16 @@ public class NavigationDrawer extends AppCompatActivity
             if (str.length()==1) {
                 char nameFirst = w.getName().toLowerCase().charAt(0);
                 if(nameFirst != str.charAt(0)) {
-                    adapter.remove(w);
+                    sadapter.remove(w);
                 }
             } else {
                 if(!w.getName().toLowerCase().contains(str)) {
-                    adapter.remove(w);
+                    sadapter.remove(w);
                 }
             }
         }
         //search now only by name, how to add translation to search?
-        adapter.notifyDataSetChanged();
+        sadapter.notifyDataSetChanged();
     }
 
     public void goToAddWordPage(View view) {
@@ -215,16 +247,12 @@ public class NavigationDrawer extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation_drawer, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -249,7 +277,6 @@ public class NavigationDrawer extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FrameLayout framelayout = (FrameLayout) findViewById(R.id.content_frame);
         FragmentManager fm = getSupportFragmentManager();
         setElementsVisibility(View.INVISIBLE);
 
@@ -266,12 +293,6 @@ public class NavigationDrawer extends AppCompatActivity
             FragmentTransaction ft = fm.beginTransaction();
             ft.addToBackStack(null);
             ft.replace(R.id.content_frame, new WordclassesFragment()).commit();
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         counter++;
