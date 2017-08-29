@@ -14,6 +14,7 @@ import com.scoctail.vocabularyapp.beans.Word;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -22,7 +23,7 @@ import java.util.TreeSet;
  */
 
 public class SectionAdapter extends ArrayAdapter {
-    private List list = new ArrayList();
+    private List<Word> list = new ArrayList();
     private TreeSet<Integer> sectionHeader = new TreeSet<Integer>();
     int resource;
     Context ctx;
@@ -45,6 +46,19 @@ public class SectionAdapter extends ArrayAdapter {
     public void addSectionHeader(Word title) {
         list.add(title);
         sectionHeader.add(list.size()-1);
+    }
+
+    public void removeSectionHeaders() {
+
+        int position=0;
+        Iterator<Word> iter = list.iterator();
+        while(iter.hasNext()) {
+            iter.next();
+            if (getItemViewType(position) == 1) {
+                iter.remove();
+            }
+            position++;
+        }
     }
 
     public int getItemViewType(int position) {

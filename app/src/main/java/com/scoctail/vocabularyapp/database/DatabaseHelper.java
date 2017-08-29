@@ -165,12 +165,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Language getSelectedLanguage(Context ctx) {
         String content = readFromInternalStorage(ctx, "language_id");
         int id = Integer.parseInt(content);
-        Log.d("language id", Integer.toString(id));
+        //Log.d("language id", Integer.toString(id));
         SQLiteDatabase db = this.getReadableDatabase();
         String [] columns = {VocabularyContract.KEY_NAME, VocabularyContract.KEY_ID};
         Cursor c = db.query(VocabularyContract.TABLE_LANGUAGE, columns, VocabularyContract.KEY_ID+" = "+id, null ,null, null,null);
         c.moveToFirst();
-        Log.d("selected language", c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME)));
+        //Log.d("selected language", c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME)));
         db.close();
         return new Language(c.getInt(c.getColumnIndex(VocabularyContract.KEY_ID)), c.getString(c.getColumnIndex(VocabularyContract.KEY_NAME)));
 

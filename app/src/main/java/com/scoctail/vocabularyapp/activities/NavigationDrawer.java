@@ -89,15 +89,18 @@ public class NavigationDrawer extends AppCompatActivity
                 if (s.toString().equals("")) {
                     initWordList(Integer.parseInt(db.readFromInternalStorage(getApplication(), "sort_by_selection")));
                 } else {
-                    searchWord(s.toString().toLowerCase());
+                    searchWordByRule(s.toString().toLowerCase(),Integer.parseInt(db.readFromInternalStorage(getApplication(), "sort_by_selection")));
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() < length) {
-                    initWordList(Integer.parseInt(db.readFromInternalStorage(getApplication(), "sort_by_selection")));
-                    searchWord(s.toString().toLowerCase());
+                    if (s.toString().length() == 0) {
+                        initWordList(Integer.parseInt(db.readFromInternalStorage(getApplication(), "sort_by_selection")));
+                    } else {
+                        searchWordByRule(s.toString().toLowerCase(), Integer.parseInt(db.readFromInternalStorage(getApplication(), "sort_by_selection")));
+                    }
                 }
             }
         });
@@ -165,21 +168,24 @@ public class NavigationDrawer extends AppCompatActivity
 
     }
 
-    public void searchWord(String str) {
+    public void searchWordByRule(String str, int rule) {
+
+        initWordList(0);
         for (Word w : words) {
             if (str.length()==1) {
                 char nameFirst = w.getName().toLowerCase().charAt(0);
                 if(nameFirst != str.charAt(0)) {
-                    sadapter.remove(w);
+                    wadapter.remove(w);
                 }
             } else {
                 if(!w.getName().toLowerCase().contains(str)) {
-                    sadapter.remove(w);
+                    wadapter.remove(w);
                 }
             }
         }
-        //search now only by name, how to add translation to search?
-        sadapter.notifyDataSetChanged();
+        wadapter.notifyDataSetChanged();
+
+
     }
 
     public void goToAddWordPage(View view) {
